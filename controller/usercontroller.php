@@ -1,5 +1,5 @@
 <?php
-require_once('../model/userModel.php');
+require_once(__DIR__ . '/../model/userModel.php');
 
 class usercontroller
 {
@@ -76,4 +76,18 @@ class usercontroller
             exit();
         }
     }
+
+    public function checkRoleAdmin()
+    {
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+            return true;
+        }
+    }
+    public function checkRoleAuteur()
+    {
+        if (isset($_SESSION['role']) && $_SESSION['role'] === 'auteur') {
+            return true;
+        }
+    }
+
 }
