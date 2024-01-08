@@ -52,6 +52,12 @@ $user->logout();
                         <span class="text-sm font-medium">tags</span>
                     </a>
                 </li>
+                <li>
+                    <a href="../index.php" class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
+                        <span class="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i class="bx bx-book-open"></i></span>
+                        <span class="text-sm font-medium">Wikis</span>
+                    </a>
+                </li>
                 <!-- <li>
                     <a href="#" class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
                         <span class="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i class="bx bx-user"></i></span>
@@ -89,7 +95,7 @@ $user->logout();
 
                                 <h2 class="text-2xl font-bold mb-4">Statistiques</h2>
                             </div>
-                            <div class="grid grid-cols-1 gap-5 sm:grid-cols-4 mt-4">
+                            <div class="grid grid-cols-1 gap-5 sm:grid-cols-3 mt-4">
                                 <div class="bg-white overflow-hidden shadow sm:rounded-lg">
                                     <div class="px-4 py-5 sm:p-6">
                                         <dl>
@@ -138,54 +144,7 @@ $user->logout();
                                         </dl>
                                     </div>
                                 </div>
-                                <div class="bg-white overflow-hidden shadow sm:rounded-lg">
-                                    <div class="px-4 py-5 sm:p-6">
-                                        <dl>
-                                            <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Servers a week</dt>
-                                            <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600">4.9K</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                                <div class="bg-white overflow-hidden shadow sm:rounded-lg">
-                                    <div class="px-4 py-5 sm:p-6">
-                                        <dl>
-                                            <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Total users</dt>
-                                            <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600">166.7K</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                                <div class="bg-white overflow-hidden shadow sm:rounded-lg">
-                                    <div class="px-4 py-5 sm:p-6">
-                                        <dl>
-                                            <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Total free servers</dt>
-                                            <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600">1.6M</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                                <div class="bg-white overflow-hidden shadow sm:rounded-lg">
-                                    <div class="px-4 py-5 sm:p-6">
-                                        <dl>
-                                            <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Servers a month</dt>
-                                            <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600">19.2K</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                                <div class="bg-white overflow-hidden shadow sm:rounded-lg">
-                                    <div class="px-4 py-5 sm:p-6">
-                                        <dl>
-                                            <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Servers a week</dt>
-                                            <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600">4.9K</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                                <div class="bg-white overflow-hidden shadow sm:rounded-lg">
-                                    <div class="px-4 py-5 sm:p-6">
-                                        <dl>
-                                            <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Total users</dt>
-                                            <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600">166.7K</dd>
-                                        </dl>
-                                    </div>
-                                </div>
+                             
                             </div>
 
                         </div>
