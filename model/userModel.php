@@ -113,17 +113,15 @@
 
         public function login()
         {
-            $query = "SELECT iduser,nom, pass FROM user WHERE email=:email";
+            $query = "SELECT * FROM user WHERE email=:email";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":email", $this->email);
             $stmt->execute();
             $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($result && password_verify($this->pass, $result['pass'])) {
-                session_start();
-                $_SESSION['iduser'] = $result['iduser'];
-                $_SESSION['nom'] = $result['nom'];
-                return true;
+               
+                return $result;
             } else {
                 return false;
             }
