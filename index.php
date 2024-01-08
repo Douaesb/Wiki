@@ -36,8 +36,14 @@
 
             <div class="flex  mt-4 items-center space-x-4 md:flex-row">
                 <!-- Login and Sign Up Buttons -->
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-lg">Login</button>
-                <button class="bg-green-500 text-white px-4 py-2 rounded-lg">Sign Up</button>
+                <a href="./view/login.php">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-lg">Login</button>
+
+                </a>
+                <a href="./view/register.php">
+                    <button class="bg-green-500 text-white px-4 py-2 rounded-lg">Sign Up</button>
+
+                </a>
             </div>
         </div>
     </div>
@@ -59,12 +65,12 @@
                     <!-- Article -->
                     <article class="overflow-hidden rounded-lg shadow-lg">
                         <div class="group bg-gray-50   mt- py-16 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md ">
-                            <a data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="bg-gray-200 text-yellow-700 group-hover:text-gray-800 group-hover:smooth-hover flex w-20 h-20 rounded-full items-center justify-center" href="register.php">
+                            <a data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="bg-gray-200 text-yellow-700 group-hover:text-gray-800 group-hover:smooth-hover flex w-20 h-20 rounded-full items-center justify-center" href="./view/register.php">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                 </svg>
                             </a>
-                            <a class="text-gray-600 group-hover:text-gray-800 group-hover:smooth-hover text-center" href="register.php">
+                            <a class="text-gray-600 group-hover:text-gray-800 group-hover:smooth-hover text-center" href="#">
                                 Create wiki </a>
                         </div>
                     </article>
