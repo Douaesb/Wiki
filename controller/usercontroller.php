@@ -6,57 +6,73 @@ class usercontroller
 
     public function Register()
     {
-        $error = ""; // Initialize an empty error message
+        $error = "";
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             $user = new UserModel();
-            $role = 'membre';
+            $role = 'auteur';
             $user->setnom($_POST['nom']);
             $user->setprenom($_POST['prenom']);
             $user->setemail($_POST['email']);
             $user->setpass($_POST['pass']);
             $user->settel($_POST['tel']);
             $user->setrole($role);
-            $error = $user->register(); // Capture the error message
+            $error = $user->register();
 
             if (empty($error)) {
                 header('Location: ../view/login.php');
                 exit();
             }
 
-            return $error; // Return the error message
-
+            return $error;
         }
     }
     public function login()
     {
-        if (isset($_POST['submit']) && isset($_POST['pass']) && isset($_POST['email'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pass']) && isset($_POST['email'])) {
             $user = new UserModel();
             $user->setemail($_POST['email']);
             $user->setpass($_POST['pass']);
-            if($user->login()){
-                header("Location: ../view/dashboard.php");
-                exit();
-            }else{
-                return "Email or password incorrect";
+            $authenticatedUser = $user->login();
+
+            if ($authenticatedUser) {
+                session_start();
+                $_SESSION['iduser'] = $authenticatedUser['iduser'];
+                $_SESSION['nom'] = $authenticatedUser['nom'];
+                $_SESSION['role'] = $authenticatedUser['role'];
+
+                if ($_SESSION['role'] === 'admin') {
+                    header('Location: ../view/dashboard.php');
+                    exit();
+                } elseif ($_SESSION['role'] === 'auteur') {
+                    header('Location: ../view/home.php');
+                    exit();
+                }
+            } else {
+                return "Login failed. Invalid credentials.";
             }
-            
         }
     }
-    
-    public function logout(){
+
+    public function logout()
+    {
         if (isset($_GET['deconn'])) {
             $user = new UserModel();
             return $user->logout();
         }
     }
 
-    public function isLoggedIn()
+    public function isLoggedIn($requiredRole = null)
     {
         session_start();
 
         if (!isset($_SESSION['iduser'])) {
             header("Location: login.php");
+            exit();
+        }
+
+        if ($requiredRole !== null && $_SESSION['role'] !== $requiredRole) {
+            header('Location: login.php');
             exit();
         }
     }

@@ -32,7 +32,7 @@ $err =$user->Register();
                                 </div>
                             <?php endif; ?>
                             <div>
-                                <h1 class="text-2xl font-semibold">Sign Up Form with</h1>
+                                <h1 class="text-2xl font-semibold">Sign Up <br> Create your own Wikis </h1>
                             </div>
 
                             <div class="divide-y divide-gray-200">

@@ -1,7 +1,7 @@
 <?php
 require_once('../controller/usercontroller.php');
 $user = new usercontroller();
-$user->isLoggedIn('admin');
+$user->isLoggedIn('auteur');
 $user->login();
 $user->logout();
 ?>
@@ -22,7 +22,7 @@ $user->logout();
 <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" />
 
 <body class="bg-gray-100">
-<h1>stats admin</h1>
+<h1>acceuil auteur</h1>
 </body>
 
 </html>
