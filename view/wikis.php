@@ -1,9 +1,15 @@
 <?php
 require_once('../controller/usercontroller.php');
+require_once('../controller/tagController.php');
+require_once('../controller/categorieController.php');
 $user = new usercontroller();
 $user->isLoggedIn('auteur');
 $user->login();
 $user->logout();
+$cat = new categorieController();
+$cats = $cat->DisplayCategories();
+$tag = new tagController();
+$tags = $tag->DisplayTags();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,15 +104,38 @@ $user->logout();
                             <form class="p-4 md:p-5" action="" method="post">
                                 <div class="grid gap-4 mb-4 grid-cols-2">
                                     <div class="col-span-2">
+                                        <label for="category" class="block mb-2 text-sm font-medium text-gray-900 text-black">Categorie</label>
+                                        <select id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-primary-500 focus:border-primary-500">
+                                            <option selected="">Select categorie</option>
+                                            <?php
+                                            foreach ($cats as $category) {
+                                                echo "<option value='{$category->getCategorieID()}'>{$category->getCategorie()}</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label for="tags" class="block mb-2 text-sm font-medium text-gray-900 text-black">Tags</label>
+                                        <select id="tags" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-primary-500 focus:border-primary-500">
+                                            <option selected="">Select tags</option>
+                                            <?php
+                                            foreach ($tags as $tag) {
+                                                echo "<option value='{$tag->getTagID()}'>{$tag->getTag()}</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-span-2">
                                         <label for="" class="block mb-2 text-sm font-medium text-gray-900 text-black">Wiki title</label>
-                                        <input type="text" name="nompro" id="" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-primary-500 focus:border-primary-500" placeholder="Type wiki title" required="">
+                                        <input type="text" name="title" id="" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-primary-500 focus:border-primary-500" placeholder="Type wiki title" required="">
                                     </div>
                                     <div class="col-span-2">
                                         <label for="" class="block mb-2 text-sm font-medium text-gray-900 text-black">Wiki Description</label>
-                                        <textarea name="descpro" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-blue-500 focus:border-blue-500" placeholder="Write wiki description here"></textarea>
+                                        <textarea name="content" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-blue-500 focus:border-blue-500" placeholder="Write wiki description here"></textarea>
                                     </div>
+
                                 </div>
-                                <button type="submit" name="addpro" class="inline-flex items-center focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-200 hover:bg-blue-400 focus:ring-blue-800">
+                                <button type="submit" name="addwiki" class="inline-flex items-center focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-200 hover:bg-blue-400 focus:ring-blue-800">
                                     <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
                                     </svg>
@@ -251,26 +280,26 @@ $user->logout();
 
     <script>
         // Responsive Menu Toggle
-        document.getElementById('menu-toggle').addEventListener('click', function() {
-            document.querySelector('.flex-col').classList.toggle('hidden');
-        });
+        // document.getElementById('menu-toggle').addEventListener('click', function() {
+        //     document.querySelector('.flex-col').classList.toggle('hidden');
+        // });
 
-        document.querySelectorAll('.editProjectButton').forEach(button => {
-            button.addEventListener('click', function() {
-                showEditProjectForm(button);
-            });
-        });
+        // document.querySelectorAll('.editProjectButton').forEach(button => {
+        //     button.addEventListener('click', function() {
+        //         showEditProjectForm(button);
+        //     });
+        // });
 
 
-        function showEditProjectForm(button) {
-            var editProjectForm = document.getElementById('authentication-modal');
-            if (editProjectForm) {
-                editProjectForm.querySelector('#editWikiId').value = button.dataset.projectId || '';
-                editProjectForm.querySelector('#editName').value = button.dataset.projectName || '';
-                editProjectForm.querySelector('#editdescription').value = button.dataset.projectDescription || '';
+        // function showEditProjectForm(button) {
+        //     var editProjectForm = document.getElementById('authentication-modal');
+        //     if (editProjectForm) {
+        //         editProjectForm.querySelector('#editWikiId').value = button.dataset.projectId || '';
+        //         editProjectForm.querySelector('#editName').value = button.dataset.projectName || '';
+        //         editProjectForm.querySelector('#editdescription').value = button.dataset.projectDescription || '';
 
-            }
-        }
+        //     }
+        // }
     </script>
 </body>
 
