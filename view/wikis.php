@@ -2,6 +2,8 @@
 require_once('../controller/usercontroller.php');
 require_once('../controller/tagController.php');
 require_once('../controller/categorieController.php');
+require_once('../controller/wikiController.php');
+
 $user = new usercontroller();
 $user->isLoggedIn('auteur');
 $user->login();
@@ -10,6 +12,9 @@ $cat = new categorieController();
 $cats = $cat->DisplayCategories();
 $tag = new tagController();
 $tags = $tag->DisplayTags();
+$wiki = new wikiController();
+$wiki->AddWikis();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -105,8 +110,8 @@ $tags = $tag->DisplayTags();
                                 <div class="grid gap-4 mb-4 grid-cols-2">
                                     <div class="col-span-2">
                                         <label for="category" class="block mb-2 text-sm font-medium text-gray-900 text-black">Categorie</label>
-                                        <select id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-primary-500 focus:border-primary-500">
-                                            <option selected="">Select categorie</option>
+                                        <select id="category" name="categorieID" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-primary-500 focus:border-primary-500">
+                                            <option selected disabled="">Select categorie</option>
                                             <?php
                                             foreach ($cats as $category) {
                                                 echo "<option value='{$category->getCategorieID()}'>{$category->getCategorie()}</option>";
@@ -116,14 +121,17 @@ $tags = $tag->DisplayTags();
                                     </div>
                                     <div class="col-span-2">
                                         <label for="tags" class="block mb-2 text-sm font-medium text-gray-900 text-black">Tags</label>
-                                        <select id="tags" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-primary-500 focus:border-primary-500">
-                                            <option selected="">Select tags</option>
+                                        <select id="tags" name="tags" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-primary-500 focus:border-primary-500" onchange="handleTagSelection(this)">
+                                            <option selected disabled="">Select tags</option>
                                             <?php
                                             foreach ($tags as $tag) {
                                                 echo "<option value='{$tag->getTagID()}'>{$tag->getTag()}</option>";
                                             }
                                             ?>
                                         </select>
+                                        <input type="hidden" id="selectedTagIdsInput" name="selectedTagIds" value="">
+                                        <div id="selectedTagsContainer" class="mt-2 flex flex-wrap space-x-2"></div>
+
                                     </div>
                                     <div class="col-span-2">
                                         <label for="" class="block mb-2 text-sm font-medium text-gray-900 text-black">Wiki title</label>
@@ -266,41 +274,55 @@ $tags = $tag->DisplayTags();
                     </div>
                 </div>
             </div>
-
-
-
-
         </div>
-
-
-
-
     </div>
-    </div>
+    <!-- Add this script in the head section of your HTML -->
+<script>
+  function handleTagSelection(selectElement) {
+    const selectedTagsContainer = document.getElementById('selectedTagsContainer');
+    const selectedTagIdsInput = document.getElementById('selectedTagIdsInput');
 
-    <script>
-        // Responsive Menu Toggle
-        // document.getElementById('menu-toggle').addEventListener('click', function() {
-        //     document.querySelector('.flex-col').classList.toggle('hidden');
-        // });
+    const selectedTagId = selectElement.value;
+    const selectedTagName = selectElement.options[selectElement.selectedIndex].text;
 
-        // document.querySelectorAll('.editProjectButton').forEach(button => {
-        //     button.addEventListener('click', function() {
-        //         showEditProjectForm(button);
-        //     });
-        // });
+    if (selectedTagId && !document.getElementById(`selectedTag_${selectedTagId}`)) {
+      // Add the selected tag to the container
+      const tagDiv = document.createElement('div');
+      tagDiv.id = `selectedTag_${selectedTagId}`;
+      tagDiv.className = 'flex items-center space-x-2 bg-blue-200 rounded-lg p-2 mb-2';
+
+      const tagText = document.createElement('span');
+      tagText.textContent = selectedTagName;
+
+      const removeIcon = document.createElement('i');
+      removeIcon.className = 'bx bx-x cursor-pointer';
 
 
-        // function showEditProjectForm(button) {
-        //     var editProjectForm = document.getElementById('authentication-modal');
-        //     if (editProjectForm) {
-        //         editProjectForm.querySelector('#editWikiId').value = button.dataset.projectId || '';
-        //         editProjectForm.querySelector('#editName').value = button.dataset.projectName || '';
-        //         editProjectForm.querySelector('#editdescription').value = button.dataset.projectDescription || '';
+      removeIcon.addEventListener('click', function () {
+        selectedTagsContainer.removeChild(tagDiv);
+        updateHiddenInput();
+      });
 
-        //     }
-        // }
-    </script>
+      tagDiv.appendChild(tagText);
+      tagDiv.appendChild(removeIcon);
+
+      selectedTagsContainer.appendChild(tagDiv);
+      updateHiddenInput();
+    }
+
+    // Clear the selected tag from the dropdown
+    selectElement.value = '';
+
+    function updateHiddenInput() {
+      // Update the hidden input with the current selected tag IDs
+      const selectedTagDivs = selectedTagsContainer.querySelectorAll('div');
+      const selectedTagIds = Array.from(selectedTagDivs).map((div) => div.id.replace('selectedTag_', ''));
+      selectedTagIdsInput.value = JSON.stringify(selectedTagIds);
+    }
+  }
+</script>
+
+
 </body>
 
 </html>
