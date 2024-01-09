@@ -10,20 +10,39 @@ class usercontroller
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             $user = new UserModel();
+            $surname = $_POST['nom'];
+            $username = $_POST['prenom'];
+            $email = $_POST['email'];
+            $pass = $_POST['pass'];
+            $tel = $_POST['tel'];
             $role = 'auteur';
-            $user->setnom($_POST['nom']);
-            $user->setprenom($_POST['prenom']);
-            $user->setemail($_POST['email']);
-            $user->setpass($_POST['pass']);
-            $user->settel($_POST['tel']);
-            $user->setrole($role);
-            $error = $user->register();
+            // $role = 'auteur';
+           
+            // $error = $user->register();
 
             if (empty($error)) {
                 header('Location: ../view/login.php');
                 exit();
             }
-
+            if (empty($surname) || strlen($surname) < 3) {
+                $error = "Surname should be at least 3 characters.";
+            } elseif (empty($username) || strlen($username) < 3) {
+                $error = "Username should be at least 3 characters.";
+            } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $error = "Invalid email address.";
+            } elseif (!preg_match("/^\d{10}$/", $tel)) {
+                $error = "Invalid phone number.";
+            } elseif (strlen($pass) < 8) {
+                $error = "Password should be at least 8 characters.";
+            } else {
+                $user->setnom($_POST['nom']);
+                $user->setprenom($_POST['prenom']);
+                $user->setemail($_POST['email']);
+                $user->setpass($_POST['pass']);
+                $user->settel($_POST['tel']);
+                $user->setrole($role);
+                $error = $user->Register();
+            }
             return $error;
         }
     }
