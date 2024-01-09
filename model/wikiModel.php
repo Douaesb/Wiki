@@ -1,62 +1,84 @@
 <?php
-class wikiModel{
+class wikiModel
+{
 
     private $wikiID;
     private $title;
     private $content;
     private $creationDate;
-    
+
 
 
     private $conn;
-    
-    public function __construct() {
-       
-        $this->conn = Database::getDb()->getConn();
 
+    public function __construct()
+    {
+
+        $this->conn = Database::getDb()->getConn();
     }
 
 
-    public function getwikiID(){
+    public function getwikiID()
+    {
         return $this->wikiID;
     }
 
-    public function setwikiID($wikiID){
+    public function setwikiID($wikiID)
+    {
         $this->wikiID = $wikiID;
-
     }
-    public function getwiki(){
+    public function getwiki()
+    {
         return $this->title;
     }
 
-    public function setwiki($title){
+    public function setwiki($title)
+    {
         $this->title = $title;
     }
-    public function getContent(){
+    public function getContent()
+    {
         return $this->content;
     }
 
-    public function setContent($content){
+    public function setContent($content)
+    {
         $this->content = $content;
-
     }
-    public function getCreationDate(){
+    public function getCreationDate()
+    {
         return $this->creationDate;
     }
 
-    public function setCreationDate($creationDate){
+    public function setCreationDate($creationDate)
+    {
         $this->creationDate = $creationDate;
     }
 
-    public function addwiki($iduser,$categorieID)
+    public function addWiki($iduser, $categorieID)
     {
-        $sql = "INSERT INTO wiki (title,content,creationDate,iduser,categorieID) VALUES (:title, :content, :creationDate, :iduser, :categorieID)";
+        $sql = "INSERT INTO wiki (title, content, creationDate, iduser, categorieID) VALUES (:title, :content, :creationDate, :iduser, :categorieID)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':title', $this->title);
         $stmt->bindParam(':content', $this->content);
         $stmt->bindParam(':creationDate', $this->creationDate);
         $stmt->bindParam(':iduser', $iduser);
         $stmt->bindParam(':categorieID', $categorieID);
+    
+        $result = $stmt->execute();
+    
+        $wikiID = $this->conn->lastInsertId();
+    
+        return $result ? $wikiID : false;
+    }
+    
+
+    public function addWikiTag($wikiID, $tagID)
+    {
+        $sql = "INSERT INTO wikitag (wikiID, tagID) VALUES (:wikiID, :tagID)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':wikiID', $wikiID);
+        $stmt->bindParam(':tagID', $tagID);
         return $stmt->execute();
     }
 
@@ -78,6 +100,6 @@ class wikiModel{
     //     }
     //     return $wikis;
     // }
-    
+
 
 }
