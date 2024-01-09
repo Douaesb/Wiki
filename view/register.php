@@ -64,8 +64,7 @@ $err =$user->Register();
                                         <label for="" class="absolute left-0 -top-3.5 text-gray-600 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm">Password</label>
                                     </div>
                                     <div class="relative">
-                                        <button name="submit" type="submit" class="bg-gray-400 text-white rounded-md px-2 py-1">Create Account</button>
-                                    </div>
+                                        <button name="submit" type="submit" id="submitBtn" class="bg-gray-400 text-white rounded-md px-2 py-1">Create Account</button>
                                     <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                                         already have an account? <a href="login.php" class="font-medium text-gray-600  hover:underline">Login to your account </a>
                                     </p>
@@ -77,14 +76,7 @@ $err =$user->Register();
             </div>
         </div>
 
-    </section>
-    <script>
-    let loginform = document.getElementById('loginform');
-    let signform = document.getElementById('signform');
-    let toggle = false;
-
-
-    /***************************************************** */
+        <script>
     const surname = document.getElementById('surname');
     const regsurname = document.getElementById('regsurname');
     const username = document.getElementById('username');
@@ -95,83 +87,49 @@ $err =$user->Register();
     const regemail = document.getElementById('regemail');
     const password = document.getElementById('pass');
     const rpassword = document.getElementById('rpassword');
+    const submitBtn = document.getElementById('submitBtn');
+
     const validsurname = /^[a-zA-Z]{3,}$/;
     const validusername = /^[a-zA-Z]{3,}$/;
     const validemail = /^(([a-zA-Z]{1,})\d{1,}@[a-z]{1,}\.[a-z]{1,3}|[a-z]+@[a-z]+\.[a-z]{1,3})$/;
-    const validtel = /^\d{10}$/; 
+    const validtel = /^\d{10}$/;
     const validpass = /^.{8,}$/;
 
+    const isFormValid = () => validsurname.test(surname.value)
+        && validusername.test(username.value)
+        && validemail.test(email.value)
+        && validtel.test(tel.value)
+        && validpass.test(password.value);
 
-    surname.addEventListener('input', e => {
-        const inputValue = surname.value;
-        if (validsurname.test(inputValue)) {
-            regsurname.innerText = 'Surname is Valid';
-            regsurname.style.color = 'green';
-            regsurname.style.display = 'block';
-        } else {
-            regsurname.innerText = 'at least 3 characters';
-            regsurname.style.color = 'red';
-            regsurname.style.display = 'block';
-            e.preventDefault(e);
-        }
-    });
-    username.addEventListener('input', e => {
-        const inputValue = username.value;
-        if (validusername.test(inputValue)) {
-            regusername.innerText = 'Username is Valid';
-            regusername.style.color = 'green';
-            regusername.style.display = 'block';
-        } else {
-            regusername.innerText = 'at least 3 characters';
-            regusername.style.color = 'red';
-            regusername.style.display = 'block';
-            e.preventDefault(e);
-        }
-    });
+    const updateButtonColor = () => {
+        submitBtn.style.backgroundColor = isFormValid() ? 'green' : 'red';
+    };
 
-    email.addEventListener('input', e => {
-        const emailValue = email.value;
-        if (validemail.test(emailValue)) {
-            regemail.innerText = 'email is Valid';
-            regemail.style.color = 'green';
-            regemail.style.display = 'block';
-        } else {
-            regemail.innerText = 'email is Invalid';
-            regemail.style.color = 'red';
-            regemail.style.display = 'block';
-            e.preventDefault(e);
-        }
-    });
+    submitBtn.disabled = !isFormValid();
 
-    tel.addEventListener('input', e => {
-        const telValue = tel.value;
-        if (validtel.test(telValue)) {
-            regtel.innerText = 'tel is Valid';
-            regtel.style.color = 'green';
-            regtel.style.display = 'block';
+    const updateValidity = (field, validation, errorElement, comment) => {
+        const inputValue = field.value;
+        if (validation.test(inputValue)) {
+            errorElement.innerText = `${field.name} is Valid`;
+            errorElement.style.color = 'green';
+            errorElement.style.display = 'block';
         } else {
-            regtel.innerText = 'enter 10 digits';
-            regtel.style.color = 'red';
-            regtel.style.display = 'block';
-            e.preventDefault(e);
+            errorElement.innerText = comment; 
+            errorElement.style.color = 'red';
+            errorElement.style.display = 'block';
         }
-    });
+        submitBtn.disabled = !isFormValid(); 
+        updateButtonColor();
+    };
 
-    password.addEventListener('input', e => {
-        const passValue = password.value;
-        if (validpass.test(passValue)) {
-            rpassword.innerText = 'Password is Valid';
-            rpassword.style.color = 'green';
-            rpassword.style.display = 'block';
-        } else {
-            rpassword.innerText = 'at least 8 caracters';
-            rpassword.style.color = 'red';
-            rpassword.style.display = 'block';
-            e.preventDefault(e);
-        }
-    });
-
+    surname.addEventListener('input', () => updateValidity(surname, validsurname, regsurname, 'at least 3 characters'));
+    username.addEventListener('input', () => updateValidity(username, validusername, regusername, 'at least 3 characters'));
+    email.addEventListener('input', () => updateValidity(email, validemail, regemail, 'Invalid email address'));
+    tel.addEventListener('input', () => updateValidity(tel, validtel, regtel, 'Enter 10 digits'));
+    password.addEventListener('input', () => updateValidity(password, validpass, rpassword, 'at least 8 characters'));
 </script>
+
+
 </body>
 
 </html>
