@@ -93,7 +93,7 @@ class wikiModel
                     FROM wiki w
                     LEFT JOIN categorie c ON w.categorieID = c.categorieID
                     LEFT JOIN user u ON w.iduser = u.iduser
-                    WHERE u.iduser = :iduser
+                    WHERE u.iduser = :iduser AND archive IS NULL
                     ORDER BY w.creationDate DESC";
     
             $stmt = $this->conn->prepare($sql);
@@ -138,6 +138,7 @@ class wikiModel
                 FROM wiki w
                 LEFT JOIN categorie c ON w.categorieID = c.categorieID
                 LEFT JOIN user u ON w.iduser = u.iduser
+                WHERE archive IS NULL
                 ORDER BY w.creationDate DESC";
 
         $stmt = $this->conn->prepare($sql);
@@ -174,6 +175,15 @@ class wikiModel
 public function deleteWiki($wikiID)
 {
     $sql = "DELETE FROM wiki WHERE wikiID = :wikiID";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':wikiID', $wikiID);
+    return $stmt->execute();
+}
+
+
+public function ArchiveWiki($wikiID)
+{
+    $sql = "UPDATE wiki SET archive = 1 WHERE wikiID = :wikiID";
     $stmt = $this->conn->prepare($sql);
     $stmt->bindParam(':wikiID', $wikiID);
     return $stmt->execute();
