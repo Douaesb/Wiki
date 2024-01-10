@@ -146,7 +146,7 @@ $cat->deleteCategorie();
                             <!-- card categorie -->
 
                             <?php foreach ($cats as $c) : ?>
-                                <div class="flex flex-col items-center justify-around bg-white overflow-hidden shadow sm:rounded-lg h-[150px] p-1">
+                                <div class="flex flex-col items-center justify-around bg-white overflow-hidden shadow sm:rounded-lg h-[100px] p-1">
 
                                     <div class="flex justify-center justify-center w-10">
                                         <span class="mt-1 text-xl font-semibold text-black whitespace-nowrap"><?php echo $c->getCategorie() ?></span>

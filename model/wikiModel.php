@@ -83,23 +83,42 @@ class wikiModel
     }
 
 
-    // public function Displaywiki()
-    // {
-    //     $sql = "SELECT * FROM wiki";
-    //     $stmt = $this->conn->prepare($sql);
-    //     $stmt->execute();
-    //     $wikisData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    //     $wikis = [];
-    //     foreach ($wikisData as $ta) {
-    //         $wiki = new wikiModel();
-    //         $wiki->setwikiID($ta['wikiID']);
-    //         $wiki->setwiki($ta['title']);
-    //         $wiki->setContent($ta['content']);
-    //         $wiki->setCreationDate($ta['creationDate']);
-    //         $wikis[] = $wiki;
-    //     }
-    //     return $wikis;
-    // }
 
-
+    public function displayWikis()
+    {
+        $sql = "SELECT w.title, w.creationDate, c.nomCategorie, u.nom, u.prenom
+                FROM wiki w
+                LEFT JOIN categorie c ON w.categorieID = c.categorieID
+                LEFT JOIN user u ON w.iduser = u.iduser
+                ORDER BY w.creationDate DESC";
+    
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $wikisData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        $wikis = [];
+        foreach ($wikisData as $wi) {
+            $wiki = new wikiModel();
+            $wiki->setwiki($wi['title']);
+            $wiki->setCreationDate($wi['creationDate']);
+            
+            $cat = new CategorieModel();
+            $cat->setCategorie($wi['nomCategorie']);
+    
+            $user = new UserModel();
+            $user->setNom($wi['nom']);
+            $user->setPrenom($wi['prenom']);
+    
+            $wikiData = [
+                'wiki' => $wiki,
+                'category' => $cat,
+                'user' => $user,
+            ];
+    
+            $wikis[] = $wikiData;
+        }
+    
+        return $wikis;
+    }
+    
 }
