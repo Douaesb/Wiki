@@ -82,4 +82,17 @@ class wikiController
             exit();
         }
     }
+
+    public function detailsWikis()
+    {
+        
+        if (isset($_GET['detailswiki']) && isset($_GET['wikiID'])) {
+            $wikiID = $_GET['wikiID'];
+            // var_dump($wikiID);
+            // die("");
+            $wiki = new wikiModel();
+            return $wiki->detailsWiki($wikiID);
+            
+        }
+    }
 }
