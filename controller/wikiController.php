@@ -44,8 +44,30 @@ class wikiController
     public function DisplayWikis()
     {
         $wiki = new wikiModel();
-        return $wiki->DisplayWikis();
+    
+        // Check if iduser is set in the session
+        if (isset($_SESSION['iduser']) && !empty($_SESSION['iduser'])) {
+            $iduser = $_SESSION['iduser'];
+            return $wiki->DisplayWikis($iduser);
+        } else {
+            // If iduser is not set or empty, return all wikis
+            return $wiki->displayAllWikis();
+        }
     }
+
+    public function deleteWiki()
+    {
+        if (isset($_GET['deletewiki']) && isset($_GET['wikiID']) ) {
+        $wikiID = $_GET['wikiID'];
+        // var_dump($wikiID);
+        // die("");
+        $wiki = new wikiModel();
+        $wiki->deleteWiki($wikiID);
+        header('Location: wikis.php');
+        exit();
+    }
+    }
+
     
     
 

@@ -84,14 +84,62 @@ class wikiModel
 
 
 
-    public function displayWikis()
+    public function displayWikis($iduser)
     {
-        $sql = "SELECT w.title, w.creationDate, c.nomCategorie, u.nom, u.prenom
+        $wikis = [];
+    
+        try {
+            $sql = "SELECT w.wikiID, w.title, w.creationDate, c.nomCategorie, u.nom, u.prenom
+                    FROM wiki w
+                    LEFT JOIN categorie c ON w.categorieID = c.categorieID
+                    LEFT JOIN user u ON w.iduser = u.iduser
+                    WHERE u.iduser = :iduser
+                    ORDER BY w.creationDate DESC";
+    
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':iduser', $iduser, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            $wikisData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            foreach ($wikisData as $wi) {
+                $wiki = new wikiModel();
+                $wiki->setwikiID($wi['wikiID']);
+                $wiki->setwiki($wi['title']);
+                $wiki->setCreationDate($wi['creationDate']);
+    
+                $cat = new CategorieModel();
+                $cat->setCategorie($wi['nomCategorie']);
+    
+                $user = new UserModel();
+                $user->setNom($wi['nom']);
+                $user->setPrenom($wi['prenom']);
+    
+                $wikiData = [
+                    'wiki' => $wiki,
+                    'category' => $cat,
+                    'user' => $user,
+                ];
+    
+                $wikis[] = $wikiData;
+            }
+        } catch (PDOException $e) {
+            // Handle the exception, log, or rethrow as needed
+            echo "Error: " . $e->getMessage();
+        }
+    
+        return $wikis;
+    }
+    
+
+    public function displayAllWikis()
+    {
+        $sql = "SELECT w.wikiID, w.title, w.creationDate, c.nomCategorie, u.nom, u.prenom
                 FROM wiki w
                 LEFT JOIN categorie c ON w.categorieID = c.categorieID
                 LEFT JOIN user u ON w.iduser = u.iduser
                 ORDER BY w.creationDate DESC";
-    
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         $wikisData = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -99,6 +147,7 @@ class wikiModel
         $wikis = [];
         foreach ($wikisData as $wi) {
             $wiki = new wikiModel();
+            $wiki->setwikiID($wi['wikiID']);
             $wiki->setwiki($wi['title']);
             $wiki->setCreationDate($wi['creationDate']);
             
@@ -120,5 +169,14 @@ class wikiModel
     
         return $wikis;
     }
-    
+
+
+public function deleteWiki($wikiID)
+{
+    $sql = "DELETE FROM wiki WHERE wikiID = :wikiID";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':wikiID', $wikiID);
+    return $stmt->execute();
+}
+
 }
