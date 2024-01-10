@@ -58,12 +58,12 @@ $result2 = $user->checkRoleAuteur();
     <div class="flex flex-wrap mt-10 mx-auto md:px-12 flex-grow">
         <div class="container mx-auto px-4 md:px-12">
             <div class="flex gap-4">
-                <div class="flex justify-center bg-blue-400 hover:bg-blue-200 rounded-xl p-2 w-40 mb-5 shadow-lg wikisButton">
+                <div class="flex justify-center bg-blue-400 cursor-pointer rounded-xl p-2 w-40 mb-5 shadow-lg wikisButton">
 
-                    <h2 class="text-lg font-bold">Wikis</h2>
+                    <h2 class="text-lg font-bold ">Wikis</h2>
 
                 </div>
-                <div class="flex justify-center bg-blue-400 hover:bg-blue-200  rounded-xl p-2 w-40 mb-5 shadow-lg categoriesButton">
+                <div class="flex justify-center bg-blue-400 cursor-pointer  rounded-xl p-2 w-40 mb-5 shadow-lg categoriesButton">
 
                     <h2 class="text-lg font-bold">Categories</h2>
 
@@ -82,7 +82,7 @@ $result2 = $user->checkRoleAuteur();
             ';
             } else if ($result2) {
                 echo '
-            <a href="./view/home.php" class="flex justify-center rounded-xl p-2 w-60 mb-5 shadow-lg bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <a href="./view/wikis.php" class="flex justify-center rounded-xl p-2 w-60 mb-5 shadow-lg bg-blue-400 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 <i class="bx bx-arrow-back mr-2 flex items-center"></i> Back to Your Account
             </a>
             ';
@@ -91,8 +91,11 @@ $result2 = $user->checkRoleAuteur();
 
 
             <div class="flex flex-wrap -mx-1 lg:-mx-4">
+                <?php
+                if ($result2) {
 
-
+                }else{
+            ?>
                 <!-- Create Project Card -->
                 <div class="my-1 px-1 w-full md:h-60 md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
 
@@ -112,6 +115,9 @@ $result2 = $user->checkRoleAuteur();
 
                 </div>
                 <!-- END Column -->
+            <?php
+            }
+            ?>
 
                 <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                     <article class="overflow-hidden rounded-lg shadow-lg h-full
@@ -175,7 +181,7 @@ $result2 = $user->checkRoleAuteur();
             <div class="w-full">
                 <div class="bg-blue-200 rounded-3xl p-12 m-5">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
-                    <div class="flex flex-col items-center justify-around bg-white overflow-hidden shadow sm:rounded-lg h-full w-full p-1 mb-2">
+                        <div class="flex flex-col items-center justify-around bg-white overflow-hidden shadow sm:rounded-lg h-full w-full p-1 mb-2">
                             <div class="flex justify-center justify-center w-16">
                                 <span class="mt-1 text-xl leading-9 font-semibold text-black">Techonologie</span>
                             </div>
@@ -329,49 +335,49 @@ $result2 = $user->checkRoleAuteur();
 
 
     <script>
-        // var wikisContent = document.getElementById('wikisContent').innerHTML;
+        var wikisContent = document.getElementById('wikisContent').innerHTML;
 
-        // function loadContent(category) {
-        //     if (category === 'Wikis') {
-        //         document.getElementById('wikisContent').style.display = 'flex';
-        //         document.getElementById('categoriesContent').style.display = 'none';
-        //         document.querySelector('.categoriesButton').classList.remove('bg-blue-400');
-        //         document.querySelector('.wikisButton').classList.add('bg-blue-400');
-        //     } else if (category === 'Categories') {
-        //         document.getElementById('wikisContent').style.display = 'none';
-        //         document.getElementById('categoriesContent').style.display = 'flex';
-        //         document.querySelector('.wikisButton').classList.remove('bg-blue-400');
-        //         document.querySelector('.categoriesButton').classList.add('bg-blue-400');
-        //     }
-        // }
-
-
-        // document.querySelector('.categoriesButton').addEventListener('click', function() {
-        //     loadContent('Categories');
-        // });
-
-        // document.querySelector('.wikisButton').addEventListener('click', function() {
-        //     loadContent('Wikis');
-        // });
-
-        // loadContent('Wikis');
-
-        // document.querySelectorAll('.editProjectButton').forEach(button => {
-        //     button.addEventListener('click', function() {
-        //         showEditProjectForm(button);
-        //     });
-        // });
+        function loadContent(category) {
+            if (category === 'Wikis') {
+                document.getElementById('wikisContent').style.display = 'flex';
+                document.getElementById('categoriesContent').style.display = 'none';
+                document.querySelector('.categoriesButton').classList.remove('bg-blue-400');
+                document.querySelector('.wikisButton').classList.add('bg-blue-400');
+            } else if (category === 'Categories') {
+                document.getElementById('wikisContent').style.display = 'none';
+                document.getElementById('categoriesContent').style.display = 'flex';
+                document.querySelector('.wikisButton').classList.remove('bg-blue-400');
+                document.querySelector('.categoriesButton').classList.add('bg-blue-400');
+            }
+        }
 
 
-        // function showEditProjectForm(button) {
-        //     var editProjectForm = document.getElementById('authentication-modal');
-        //     if (editProjectForm) {
-        //         editProjectForm.querySelector('#editWikiId').value = button.dataset.projectId || '';
-        //         editProjectForm.querySelector('#editName').value = button.dataset.projectName || '';
-        //         editProjectForm.querySelector('#editdescription').value = button.dataset.projectDescription || '';
+        document.querySelector('.categoriesButton').addEventListener('click', function() {
+            loadContent('Categories');
+        });
 
-        //     }
-        // }
+        document.querySelector('.wikisButton').addEventListener('click', function() {
+            loadContent('Wikis');
+        });
+
+        loadContent('Wikis');
+
+        document.querySelectorAll('.editProjectButton').forEach(button => {
+            button.addEventListener('click', function() {
+                showEditProjectForm(button);
+            });
+        });
+
+
+        function showEditProjectForm(button) {
+            var editProjectForm = document.getElementById('authentication-modal');
+            if (editProjectForm) {
+                editProjectForm.querySelector('#editWikiId').value = button.dataset.projectId || '';
+                editProjectForm.querySelector('#editName').value = button.dataset.projectName || '';
+                editProjectForm.querySelector('#editdescription').value = button.dataset.projectDescription || '';
+
+            }
+        }
     </script>
 
 </body>
