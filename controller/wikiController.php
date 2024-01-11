@@ -95,4 +95,22 @@ class wikiController
             
         }
     }
+
+    public function searchWikis()
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['keyword'])) {
+        $keyword = $_POST['keyword'];
+    
+        $wiki = new wikiModel();
+        $searchResults = $wiki->searchWiki($keyword);
+    
+        header('Content-Type: application/json');
+        echo json_encode($searchResults);
+    }
 }
+}
+
+$wikisearch = new wikiController();
+$wikisearch->searchWikis();
+
+
