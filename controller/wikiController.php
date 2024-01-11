@@ -108,6 +108,11 @@ class wikiController
         echo json_encode($searchResults);
     }
 }
+
+public function WikisByCategory(){
+    $wiki = new wikiModel();
+    return $wiki->WikisByCategory();
+}
 }
 
 $wikisearch = new wikiController();
