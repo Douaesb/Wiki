@@ -69,18 +69,6 @@ $wiki->deleteWiki();
                         <span class="text-sm font-medium">Logout</span>
                     </a>
                 </li>
-            </ul> <!-- Your existing menu items go here -->
-            <!-- ... -->
-
-            <!-- Responsive Navigation Icon -->
-            <li class="sm:hidden">
-                <button id="menu-toggle" class="flex items-center h-12 text-gray-500 hover:text-gray-800">
-                    <span class="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400">
-                        <i class="bx bx-menu"></i>
-                    </span>
-                    <span class="text-sm font-medium">Menu</span>
-                </button>
-            </li>
             </ul>
         </div>
 
@@ -169,7 +157,7 @@ $wiki->deleteWiki();
 
                             <!-- Article -->
                             <article class="overflow-hidden rounded-lg shadow-lg">
-                                <div class="group bg-gray-50 py-10 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md ">
+                                <div class="group bg-gray-50 py-14 px-4 flex flex-col space-y-2 items-center cursor-pointer rounded-md ">
                                     <a data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="bg-gray-200 text-yellow-700 group-hover:text-gray-800 group-hover:smooth-hover flex w-20 h-20 rounded-full items-center justify-center" href="#">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -189,6 +177,7 @@ $wiki->deleteWiki();
                                 $wiki = $wikiData['wiki'];
                                 $category = $wikiData['category'];
                                 $user = $wikiData['user'];
+                                $tags = $wikiData['tags'];
                             }
                         ?>
 
@@ -200,16 +189,27 @@ $wiki->deleteWiki();
                                         echo $bgColors[$randomIndex];
                                         ?>
                                 ">
-                                    <div class="flex flex-col justify-between py-4 px-6 h-48">
-                                    <p class="text-gray-700 mb-2">
-                                            Categorie : 
-                                        <?php echo htmlspecialchars($category->getCategorie()); ?>
+                                    <div class="flex flex-col justify-between py-4 px-8 h-52">
+                                        <p class="text-gray-700 mb-2">
+                                            Categorie :
+                                            <?php echo htmlspecialchars($category->getCategorie()); ?>
                                         </p>
                                         <h1 class="text-xl font-semibold mb-2">TITLE :
-                                        <?php echo htmlspecialchars($wiki->getwiki());
-                                         ?>
+                                            <?php echo htmlspecialchars($wiki->getwiki());
+                                            ?>
                                         </h1>
-                                        
+                                        <div class="flex sm:rounded-lg p-1 gap-8 ml-2">
+                                            <?php foreach ($tags->getTag() as $onetag)
+                                                echo '
+                    <div class="flex justify-center justify-center w-10 p-1">
+
+                    <span class="inline-flex items-center font-medium rounded-lg text-sm px-4 py-1.5 text-center bg-blue-200 hover:bg-blue-400">
+                    ' . $onetag . '</span>
+                    </div>
+
+                    ';
+                                            ?>
+                                        </div>
                                         <div class="flex justify-between">
                                             <div class="flex flex-col justify-between text-sm text-gray-600">
                                                 <div class="flex items-center">

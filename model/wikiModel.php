@@ -93,7 +93,10 @@ class wikiModel
                     FROM wiki w
                     LEFT JOIN categorie c ON w.categorieID = c.categorieID
                     LEFT JOIN user u ON w.iduser = u.iduser
-                    WHERE u.iduser = :iduser AND archive IS NULL
+                    LEFT JOIN wikitag wt ON w.wikiID = wt.wikiID
+                LEFT JOIN tags t on t.tagID = wt.tagID
+                WHERE u.iduser = :iduser AND archive IS NULL
+                GROUP BY w.wikiID
                     ORDER BY w.creationDate DESC";
 
             $stmt = $this->conn->prepare($sql);
@@ -115,12 +118,16 @@ class wikiModel
                 $user->setNom($wi['nom']);
                 $user->setPrenom($wi['prenom']);
 
+                $tagNames = explode(',', $wi['tagnames']);
+                $tags = array_map('trim', $tagNames);
+                $tag = new tagModel();
+                $tag->setTag($tags);
                 $wikiData = [
                     'wiki' => $wiki,
                     'category' => $cat,
                     'user' => $user,
+                    'tags' => $tag,
                 ];
-
                 $wikis[] = $wikiData;
             }
         } catch (PDOException $e) {
