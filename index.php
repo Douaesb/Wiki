@@ -100,7 +100,7 @@ $wikiData = $wiki->detailsWikis();
 
             <div class="flex flex-wrap -mx-1 lg:-mx-4">
                 <?php
-                if ($result2) {
+                if ($result2 || $result) {
                 } else {
                 ?>
                     <!-- Create Project Card -->
@@ -141,7 +141,7 @@ $wikiData = $wiki->detailsWikis();
                     $randomIndex = array_rand($bgColors);
                     echo $bgColors[$randomIndex];
                 ?>
-        ">
+                         ">
                             <div class="flex flex-col justify-between py-4 px-6 h-48">
                                 <p class="text-gray-700 mb-2">
                                     Categorie :
@@ -150,6 +150,7 @@ $wikiData = $wiki->detailsWikis();
                                 <h1 class="text-xl font-semibold mb-2">TITLE :
                                     <?php echo htmlspecialchars($wiki->getwiki()); ?>
                                 </h1>
+                                
 
                                 <div class="flex justify-between">
                                     <div class="flex flex-col justify-between text-sm text-gray-600">
