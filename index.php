@@ -131,18 +131,19 @@ $wikiData = $wiki->detailsWikis();
                         $wiki = $wikiData['wiki'];
                         $category = $wikiData['category'];
                         $user = $wikiData['user'];
+                        $tags = $wikiData['tags'];
                     }
                 ?>
 
                     <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3">
                         <article class="overflow-hidden rounded-lg shadow-lg h-full
                 <?php
-                    $bgColors = ['bg-blue-200', 'bg-gray-300', 'bg-gray-200', 'bg-gray-100', 'bg-blue-100'];
+                    $bgColors = ['bg-gray-300', 'bg-gray-200', 'bg-gray-100', 'bg-blue-100'];
                     $randomIndex = array_rand($bgColors);
                     echo $bgColors[$randomIndex];
                 ?>
                          ">
-                            <div class="flex flex-col justify-between py-4 px-6 h-48">
+                            <div class="flex flex-col justify-between py-4 px-8 h-52">
                                 <p class="text-gray-700 mb-2">
                                     Categorie :
                                     <?php echo htmlspecialchars($category->getCategorie()); ?>
@@ -150,7 +151,19 @@ $wikiData = $wiki->detailsWikis();
                                 <h1 class="text-xl font-semibold mb-2">TITLE :
                                     <?php echo htmlspecialchars($wiki->getwiki()); ?>
                                 </h1>
-                                
+                                <div class="flex sm:rounded-lg p-1 gap-8 ml-2">
+                                    <?php foreach ($tags->getTag() as $onetag)
+                                        echo '
+                    <div class="flex justify-center justify-center w-10 p-1">
+
+                    <span class="inline-flex items-center font-medium rounded-lg text-sm px-4 py-1.5 text-center bg-blue-200 hover:bg-blue-400">
+                    ' . $onetag . '</span>
+                    </div>
+
+                    ';
+                                    ?>
+                                </div>
+
 
                                 <div class="flex justify-between">
                                     <div class="flex flex-col justify-between text-sm text-gray-600">
@@ -173,7 +186,7 @@ $wikiData = $wiki->detailsWikis();
                                         <?php
                                         if ($result) {
                                             echo '
-                                          <a title="Archive" href="index.php?archivewiki&wikiID= '.$wiki->getwikiID().'">
+                                          <a title="Archive" href="index.php?archivewiki&wikiID= ' . $wiki->getwikiID() . '">
                                                <svg class="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20" />
                                               </svg>
