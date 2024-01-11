@@ -274,4 +274,17 @@ class wikiModel
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function WikisByCategory(){
+        $sql = "SELECT c.nomCategorie, COUNT(*) AS category_count
+        FROM wiki w
+        JOIN categorie c ON w.categorieID = c.categorieID
+        GROUP BY c.nomCategorie;
+        ";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute();
+
+
+
+    }
 }
