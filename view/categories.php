@@ -133,8 +133,8 @@ $cat->deleteCategorie();
                         <hr class="my-10 border border-blue-700">
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                            <div class="group bg-gray-50 py-4 px-2 flex flex-col space-y-1 items-center cursor-pointer rounded-md ">
-                                <a data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="bg-gray-200 text-yellow-700 group-hover:text-gray-800 group-hover:smooth-hover flex w-20 h-20 rounded-full items-center justify-center" href="#">
+                            <div class="group bg-gray-50 py-4 px-2 flex flex-col space-y-1 items-center cursor-pointer rounded-md h-[100px] ">
+                                <a data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="bg-gray-200 text-yellow-700 group-hover:text-gray-800 group-hover:smooth-hover flex w-10 h-20 rounded-full items-center justify-center" href="#">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                                     </svg>

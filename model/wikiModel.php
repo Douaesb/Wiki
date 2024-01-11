@@ -89,7 +89,7 @@ class wikiModel
         $wikis = [];
 
         try {
-            $sql = "SELECT w.wikiID, w.title, w.creationDate, c.nomCategorie, u.nom, u.prenom, GROUP_CONCAT(t.nomTag) as tagnames
+            $sql = "SELECT w.wikiID, w.title,w.content, w.creationDate, c.nomCategorie, u.nom, u.prenom, GROUP_CONCAT(t.nomTag) as tagnames
                     FROM wiki w
                     LEFT JOIN categorie c ON w.categorieID = c.categorieID
                     LEFT JOIN user u ON w.iduser = u.iduser
@@ -109,6 +109,7 @@ class wikiModel
                 $wiki = new wikiModel();
                 $wiki->setwikiID($wi['wikiID']);
                 $wiki->setwiki($wi['title']);
+                $wiki->setContent($wi['content']);
                 $wiki->setCreationDate($wi['creationDate']);
 
                 $cat = new CategorieModel();
@@ -131,7 +132,6 @@ class wikiModel
                 $wikis[] = $wikiData;
             }
         } catch (PDOException $e) {
-            // Handle the exception, log, or rethrow as needed
             echo "Error: " . $e->getMessage();
         }
 

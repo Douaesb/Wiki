@@ -11,6 +11,8 @@ $wiki = new wikiController();
 $w = $wiki->displayAllWikis();
 $wiki->archiveWiki();
 $wikiData = $wiki->detailsWikis();
+$cat = new categorieController();
+$cats = $cat->DisplayCategories();
 ?>
 
 <!DOCTYPE html>
@@ -216,138 +218,22 @@ $wikiData = $wiki->detailsWikis();
             <div class="w-full">
                 <div class="bg-blue-200 rounded-3xl p-12 m-5">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
+                    <?php foreach ($cats as $c) : ?>
+
                         <div class="flex flex-col items-center justify-around bg-white overflow-hidden shadow sm:rounded-lg h-full w-full p-1 mb-2">
                             <div class="flex justify-center justify-center w-16">
-                                <span class="mt-1 text-xl leading-9 font-semibold text-black">Techonologie</span>
+                                <span class="mt-1 text-xl leading-9 font-semibold text-black whitespace-nowrap"><?php echo $c->getCategorie() ?></span>
                             </div>
                             <div class="flex items-center text-green-500 gap-2">
-                                <span class="ml-1 leading-none text-gray-600">~ modified at</span>
+                                <span class="ml-1 leading-none text-gray-600"> </span>
                                 <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
                                 </svg>
-                                <span class="ml-1 leading-none">1-08-2023</span>
+                                <span class="ml-1 leading-none"><?php echo date('j M H:i', strtotime($c->getDateCategorie())); ?></span>
 
                             </div>
                         </div>
-                        <div class="flex flex-col items-center justify-around bg-white overflow-hidden shadow sm:rounded-lg h-full w-full p-1 mb-2">
-                            <div class="flex justify-center justify-center w-16">
-                                <span class="mt-1 text-xl leading-9 font-semibold text-black">Culture</span>
-                            </div>
-                            <div class="flex items-center text-green-500 gap-2">
-                                <span class="ml-1 leading-none text-gray-600">~ created at</span>
-                                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-1 leading-none">1-08-2023</span>
-
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-center justify-around bg-white overflow-hidden shadow sm:rounded-lg h-full w-full p-1 mb-2">
-                            <div class="flex justify-center justify-center w-16">
-                                <span class="mt-1 text-xl leading-9 font-semibold text-black">Musique</span>
-                            </div>
-                            <div class="flex items-center text-green-500 gap-2">
-                                <span class="ml-1 leading-none text-gray-600">~ created at</span>
-                                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-1 leading-none">1-08-2023</span>
-
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-center justify-around bg-white overflow-hidden shadow sm:rounded-lg h-full w-full p-1 mb-2">
-                            <div class="flex justify-center justify-center w-16">
-                                <span class="mt-1 text-xl leading-9 font-semibold text-black">Programmation</span>
-                            </div>
-                            <div class="flex items-center text-green-500 gap-2">
-                                <span class="ml-1 leading-none text-gray-600">~ created at</span>
-                                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-1 leading-none">1-08-2023</span>
-
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-center justify-around bg-white overflow-hidden shadow sm:rounded-lg h-full w-full p-1 mb-2">
-                            <div class="flex justify-center justify-center w-16">
-                                <span class="mt-1 text-xl leading-9 font-semibold text-black">Sport</span>
-                            </div>
-                            <div class="flex items-center text-green-500 gap-2">
-                                <span class="ml-1 leading-none text-gray-600">~ modified at</span>
-                                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-1 leading-none">1-08-2023</span>
-
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-center justify-around bg-white overflow-hidden shadow sm:rounded-lg h-full w-full p-1 mb-2">
-                            <div class="flex justify-center justify-center w-16">
-                                <span class="mt-1 text-xl leading-9 font-semibold text-black">Santé</span>
-                            </div>
-                            <div class="flex items-center text-green-500 gap-2">
-                                <span class="ml-1 leading-none text-gray-600">~ created at</span>
-                                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-1 leading-none">1-08-2023</span>
-
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-center justify-around bg-white overflow-hidden shadow sm:rounded-lg h-full w-full p-1 mb-2">
-                            <div class="flex justify-center justify-center w-16">
-                                <span class="mt-1 text-xl leading-9 font-semibold text-black">Techonologie</span>
-                            </div>
-                            <div class="flex items-center text-green-500 gap-2">
-                                <span class="ml-1 leading-none text-gray-600">~ created at</span>
-                                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-1 leading-none">1-08-2023</span>
-
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-center justify-around bg-white overflow-hidden shadow sm:rounded-lg h-full w-full p-1 mb-2">
-                            <div class="flex justify-center justify-center w-16">
-                                <span class="mt-1 text-xl leading-9 font-semibold text-black">Techonologie</span>
-                            </div>
-                            <div class="flex items-center text-green-500 gap-2">
-                                <span class="ml-1 leading-none text-gray-600">~ created at</span>
-                                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-1 leading-none">1-08-2023</span>
-
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-center justify-around bg-white overflow-hidden shadow sm:rounded-lg h-full w-full p-1 mb-2">
-                            <div class="flex justify-center justify-center w-16">
-                                <span class="mt-1 text-xl leading-9 font-semibold text-black">Techonologie</span>
-                            </div>
-                            <div class="flex items-center text-green-500 gap-2">
-                                <span class="ml-1 leading-none text-gray-600">~ modified at</span>
-                                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-1 leading-none">1-08-2023</span>
-
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-center justify-around bg-white overflow-hidden shadow sm:rounded-lg h-full w-full p-1 mb-2">
-                            <div class="flex justify-center justify-center w-16">
-                                <span class="mt-1 text-xl leading-9 font-semibold text-black">Techonologie</span>
-                            </div>
-                            <div class="flex items-center text-green-500 gap-2">
-                                <span class="ml-1 leading-none text-gray-600">~ created at</span>
-                                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                                </svg>
-                                <span class="ml-1 leading-none">1-08-2023</span>
-
-                            </div>
-                        </div>
-
-
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
