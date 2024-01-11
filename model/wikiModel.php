@@ -1,4 +1,6 @@
 <?php
+    require_once('database.php');
+
 class wikiModel
 {
 
@@ -250,5 +252,26 @@ class wikiModel
         }
 
         return $wikis;
+    }
+
+    public function searchWiki($keyword) {
+        $keyword = '%' . $keyword . '%';
+
+        $query = "SELECT w.wikiID, w.title, w.content, w.creationDate, c.nomCategorie, u.nom, u.prenom, GROUP_CONCAT(t.nomTag) as tagnames
+        FROM wiki w
+        LEFT JOIN categorie c ON w.categorieID = c.categorieID
+        LEFT JOIN user u ON w.iduser = u.iduser
+        LEFT JOIN wikitag wt ON w.wikiID = wt.wikiID
+        LEFT JOIN tags t ON t.tagID = wt.tagID
+        WHERE archive IS NULL AND (w.title LIKE :keyword OR c.nomCategorie LIKE :keyword OR t.nomTag LIKE :keyword)
+        GROUP BY w.wikiID
+        ORDER BY w.creationDate DESC";
+    
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':keyword', $keyword, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
