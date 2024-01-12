@@ -91,7 +91,7 @@ class wikiModel
         $wikis = [];
 
         try {
-            $sql = "SELECT w.wikiID, w.title,w.content, w.creationDate, c.nomCategorie, u.nom, u.prenom, GROUP_CONCAT(t.nomTag) as tagnames
+            $sql = "SELECT w.wikiID, w.title,w.content, w.creationDate,c.categorieID, c.nomCategorie, u.nom, u.prenom,t.tagID, GROUP_CONCAT(t.nomTag) as tagnames
                     FROM wiki w
                     LEFT JOIN categorie c ON w.categorieID = c.categorieID
                     LEFT JOIN user u ON w.iduser = u.iduser
@@ -115,6 +115,7 @@ class wikiModel
                 $wiki->setCreationDate($wi['creationDate']);
 
                 $cat = new CategorieModel();
+            $cat->setCategorieID($wi['categorieID']);
                 $cat->setCategorie($wi['nomCategorie']);
 
                 $user = new UserModel();
@@ -125,6 +126,8 @@ class wikiModel
                 $tags = array_map('trim', $tagNames);
                 $tag = new tagModel();
                 $tag->setTag($tags);
+                $tag->setTagID($wi['tagID']);
+
                 $wikiData = [
                     'wiki' => $wiki,
                     'category' => $cat,
@@ -165,6 +168,7 @@ class wikiModel
             $wiki->setCreationDate($wi['creationDate']);
 
             $cat = new CategorieModel();
+            $cat->setCategorieID($wi['categorieID']);
             $cat->setCategorie($wi['nomCategorie']);
 
             $user = new UserModel();
@@ -174,6 +178,7 @@ class wikiModel
             $tagNames = explode(',', $wi['tagnames']);
             $tags = array_map('trim', $tagNames);
             $tag = new tagModel();
+            $tag->setTagID($wi['tagID']);
             $tag->setTag($tags);
             $wikiData = [
                 'wiki' => $wiki,
@@ -275,16 +280,86 @@ class wikiModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function WikisByCategory(){
-        $sql = "SELECT c.nomCategorie, COUNT(*) AS category_count
-        FROM wiki w
-        JOIN categorie c ON w.categorieID = c.categorieID
-        GROUP BY c.nomCategorie;
-        ";
+    public function getTotalWikis(){
+        $sql = "SELECT COUNT(*) as totalWikis FROM wiki";
         $stmt = $this->conn->prepare($sql);
-        return $stmt->execute();
-
-
+         $stmt->execute();
+         return $stmt->fetch(PDO::FETCH_ASSOC);
 
     }
+
+    public function getMostUsedCategory(){
+        $sql = " SELECT c.nomCategorie, COUNT(w.categorieID) as categoryCount
+        FROM wiki w
+        JOIN categorie c ON w.categorieID = c.categorieID
+        GROUP BY w.categorieID
+        ORDER BY categoryCount DESC
+        LIMIT 1";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);    }
+
+    public function getTotalCategories(){
+        $sql = "SELECT COUNT(*) as totalCategories FROM categorie";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);    }
+
+    public function getTotalTags(){
+        $sql = "SELECT COUNT(*) as totalTags FROM tags";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);    }
+
+    public function getTotalAuthors(){
+        $sql = "SELECT COUNT(iduser) as totalAuthors FROM user";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);    }
+
+    public function getMostPostAuthor() {
+        $sql = "SELECT u.nom, COUNT(w.iduser) as wikiCount
+        FROM wiki w
+        JOIN user u ON w.iduser = u.iduser
+        GROUP BY w.iduser
+        ORDER BY wikiCount DESC
+        LIMIT 1";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);    }
+
+    public function editWiki($wikiID, $title, $content, $categoryID, $tagIDs)
+    {
+        $sql = "UPDATE wiki SET title = :title, content = :content, categorieID = :categoryID WHERE wikiID = :wikiID";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':content', $content);
+        $stmt->bindParam(':categoryID', $categoryID);
+        $stmt->bindParam(':wikiID', $wikiID);
+
+        $result = $stmt->execute();
+
+        // Remove existing tags for the wiki
+        $deleteTagsQuery = "DELETE FROM wikitag WHERE wikiID = :wikiID";
+        $deleteTagsStmt = $this->conn->prepare($deleteTagsQuery);
+        $deleteTagsStmt->bindParam(':wikiID', $wikiID);
+        $deleteTagsStmt->execute();
+
+        // Insert new tags for the wiki
+        foreach ($tagIDs as $tagID) {
+            $insertTagQuery = "INSERT INTO wikitag (wikiID, tagID) VALUES (:wikiID, :tagID)";
+            $insertTagStmt = $this->conn->prepare($insertTagQuery);
+            $insertTagStmt->bindParam(':wikiID', $wikiID);
+            $insertTagStmt->bindParam(':tagID', $tagID);
+            $insertTagStmt->execute();
+        }
+
+        // Close statements
+        $stmt->close();
+        $deleteTagsStmt->close();
+        $insertTagStmt->close();
+
+        return $result;
+    }
+
 }

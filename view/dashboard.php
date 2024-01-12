@@ -7,7 +7,12 @@ $user->isLoggedIn('admin');
 $user->login();
 $user->logout();
 $wiki = new wikiController();
-$wikibycat = $wiki->WikisByCategory();
+$MostPostAuthor = $wiki->getMostPostAuthor();
+$TotalWikis = $wiki->getTotalWikis();
+$MostUsedCategory = $wiki->getMostUsedCategory();
+$TotalCategories = $wiki->getTotalCategories();
+$TotalTags = $wiki->getTotalTags();
+$TotalAuthors = $wiki->getTotalAuthors();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -103,50 +108,50 @@ $wikibycat = $wiki->WikisByCategory();
                             <div class="bg-white overflow-hidden shadow sm:rounded-lg">
                                 <div class="px-4 py-5 sm:p-6">
                                     <dl>
-                                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Number of wikis in each category
+                                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Most Posting Author
 
                                         </dt>
-                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo $wikibycat;?></dd>
+                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo $MostPostAuthor['nom'];?></dd>
                                     </dl>
                                 </div>
                             </div>
                             <div class="bg-white overflow-hidden shadow sm:rounded-lg">
                                 <div class="px-4 py-5 sm:p-6">
                                     <dl>
-                                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Servers a month</dt>
-                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600">19.2K</dd>
+                                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Most Used Category</dt>
+                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo $MostUsedCategory['nomCategorie'];?></dd>
                                     </dl>
                                 </div>
                             </div>
                             <div class="bg-white overflow-hidden shadow sm:rounded-lg">
                                 <div class="px-4 py-5 sm:p-6">
                                     <dl>
-                                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Servers a week</dt>
-                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600">4.9K</dd>
+                                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Total Users</dt>
+                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo $TotalAuthors['totalAuthors'];?></dd>
                                     </dl>
                                 </div>
                             </div>
                             <div class="bg-white overflow-hidden shadow sm:rounded-lg">
                                 <div class="px-4 py-5 sm:p-6">
                                     <dl>
-                                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Total users</dt>
-                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600">166.7K</dd>
+                                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Total wikis</dt>
+                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo $TotalWikis['totalWikis'];?></dd>
                                     </dl>
                                 </div>
                             </div>
                             <div class="bg-white overflow-hidden shadow sm:rounded-lg">
                                 <div class="px-4 py-5 sm:p-6">
                                     <dl>
-                                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Total free servers</dt>
-                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600">1.6M</dd>
+                                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Total categories</dt>
+                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo $TotalCategories['totalCategories'];?></dd>
                                     </dl>
                                 </div>
                             </div>
                             <div class="bg-white overflow-hidden shadow sm:rounded-lg">
                                 <div class="px-4 py-5 sm:p-6">
                                     <dl>
-                                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Servers a month</dt>
-                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600">19.2K</dd>
+                                        <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Total Tags</dt>
+                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo $TotalTags['totalTags'];?></dd>
                                     </dl>
                                 </div>
                             </div>

@@ -17,6 +17,12 @@ $wiki->AddWikis();
 $w = $wiki->DisplayWikis();
 $wiki->deleteWiki();
 $wikiData = $wiki->detailsWikis();
+// foreach($tags as $tag){
+//     var_dump($tag->getTag());
+// }
+// die("");
+// var_dump($tags);
+// die("");
 
 
 ?>
@@ -74,12 +80,13 @@ $wikiData = $wiki->detailsWikis();
             </ul>
         </div>
 
+
+
         <!-- Content -->
         <div class="flex-grow p-4">
 
 
             <section class="flex flex-wrap mt-20 mx-auto md:px-12 flex-grow">
-                <!-- Main modal -->
                 <!-- Main modal -->
                 <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                     <div class="relative p-4 w-full max-w-md max-h-full">
@@ -146,6 +153,76 @@ $wikiData = $wiki->detailsWikis();
                     </div>
                 </div>
 
+                <!-- Main modal -->
+                <div id="authentication-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="relative p-4 w-full max-w-md max-h-full">
+                        <!-- Modal content -->
+                        <div class="relative bg-white rounded-lg shadow bg-blue-50">
+                            <!-- Modal header -->
+                            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
+                                <h3 class="text-xl font-semibold text-gray-900 text-black">
+                                    Update Wiki
+                                </h3>
+                                <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white" data-modal-hide="authentication-modal">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                    </svg>
+                                    <span class="sr-only">Close modal</span>
+                                </button>
+                            </div>
+                            <!-- Modal body -->
+                            <div class="p-4 md:p-5">
+                                <form class="p-4 md:p-5" action="" method="post">
+                                    <div class="grid gap-4 mb-4 grid-cols-2">
+                                        <div class="col-span-2">
+                                            <label for="updateWikiCategory" class="block mb-2 text-sm font-medium text-gray-900 text-black">Category</label>
+                                            <select id="updateWikiCategory" name="updateWikiCategory" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-primary-500 focus:border-primary-500">
+                                                <option selected disabled="">Select categorie</option>
+                                                <?php
+                                                foreach ($cats as $category) {
+                                                    echo "<option value='{$category->getCategorieID()}'>{$category->getCategorie()}</option>";
+                                                }
+                                                // die("");
+                                                ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <label for="updateWikiTags" class="block mb-2 text-sm font-medium text-gray-900 text-black">Tags</label>
+                                            <select id="updateWikiTags" name="updateWikiTags" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-primary-500 focus:border-primary-500" onchange="handleUpdateTagSelection(this)">
+                                                <option selected disabled="">Select tags</option>
+                                                <?php
+
+                                                foreach ($tags as $tag) {
+                                                    var_dump($tags);
+                                                    echo "<option value='{$tag->getTagID()}'>{$tag->getTag()}</option>";
+                                                }
+                                                ?>
+
+                                            </select>
+                                            <input type="hidden" id="updateHiddenUpdateInput" name="selectedUpdateTagIds" value="">
+                                            <div id="selectedUpdateTagsContainer" name="selectedUpdateTagsContainer" class="mt-2 flex flex-wrap space-x-2"></div>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <label for="updateWikiTitle" class="block mb-2 text-sm font-medium text-gray-900 text-black">Wiki Title</label>
+                                            <input type="text" id="updateWikiTitle" name="updateWikiTitle" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-primary-500 focus:border-primary-500" placeholder="Type wiki title" required="">
+                                        </div>
+                                        <div class="col-span-2">
+                                            <label for="updateWikiDescription" class="block mb-2 text-sm font-medium text-gray-900 text-black">Wiki Description</label>
+                                            <textarea id="updateWikiDescription" name="updateWikiDescription" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-blue-500 focus:border-blue-500" placeholder="Write wiki description here"></textarea>
+                                        </div>
+                                    </div>
+                                    <button type="submit" name="updateWiki" class="inline-flex items-center focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-200 hover:bg-blue-400 focus:ring-blue-800">
+                                        <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        Update Wiki
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="container mx-auto px-4 md:px-12">
                     <div class="flex justify-center bg-white rounded-xl p-2 w-40 mb-5 shadow-lg">
 
@@ -201,7 +278,10 @@ $wikiData = $wiki->detailsWikis();
                                             ?>
                                         </h1>
                                         <div class="flex sm:rounded-lg p-1 gap-8 ml-2">
-                                            <?php foreach ($tags->getTag() as $onetag)
+                                            <?php
+
+                                            foreach ($tags->getTag() as $onetag)
+
                                                 echo '
                     <div class="flex justify-center justify-center w-10 p-1">
 
@@ -230,7 +310,7 @@ $wikiData = $wiki->detailsWikis();
 
                                             </div>
                                             <div class="flex items-center gap-6">
-                                                <a href="#" title="Edit" class="editProjectButton" data-wiki-id="<?php echo $wiki->getwikiID(); ?>" data-wiki-title="<?php echo htmlspecialchars($wiki->getwiki()); ?>" data-wiki-description="<?php echo htmlspecialchars($wiki->getContent()); ?>" data-wiki-category="<?php echo $category->getCategorieID(); ?>" data-wiki-tags="<?php echo htmlspecialchars(json_encode($tags->getTag())); ?>" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal">
+                                                <a href="#" title="Edit" class="editButton" data-wiki-id="<?php echo $wiki->getwikiID(); ?>" data-wiki-title="<?php echo htmlspecialchars($wiki->getwiki()); ?>" data-wiki-description="<?php echo htmlspecialchars($wiki->getContent()); ?>" data-wiki-category="<?php echo $category->getCategorieID(); ?>" data-wiki-tags="<?php echo htmlspecialchars(json_encode($tags->getTag())); ?>" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal">
                                                     <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
                                                         <path opacity="1" fill="#2766d3" d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" />
                                                     </svg>
@@ -259,148 +339,194 @@ $wikiData = $wiki->detailsWikis();
             </section>
 
 
-            <!-- Main modal -->
-            <div id="authentication-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                <div class="relative p-4 w-full max-w-md max-h-full">
-                    <!-- Modal content -->
-                    <div class="relative bg-white rounded-lg shadow bg-blue-50">
-                        <!-- Modal header -->
-                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t border-gray-600">
-                            <h3 class="text-xl font-semibold text-gray-900 text-black">
-                                Update Wiki
-                            </h3>
-                            <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center hover:bg-gray-600 hover:text-white" data-modal-hide="authentication-modal">
-                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                </svg>
-                                <span class="sr-only">Close modal</span>
-                            </button>
-                        </div>
-                        <!-- Modal body -->
-                        <div class="p-4 md:p-5">
-                            <form class="p-4 md:p-5" action="" method="post">
-                                <div class="grid gap-4 mb-4 grid-cols-2">
-                                    <div class="col-span-2">
-                                        <label for="updateWikiCategory" class="block mb-2 text-sm font-medium text-gray-900 text-black">Category</label>
-                                        <select id="updateWikiCategory" name="updateWikiCategory" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-primary-500 focus:border-primary-500">
-                                            <option selected disabled="">Select categorie</option>
-                                            <?php
-                                            foreach ($cats as $category) {
-                                                echo "<option value='{$category->getCategorieID()}'>{$category->getCategorie()}</option>";
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="col-span-2">
-                                        <label for="updateWikiTags" class="block mb-2 text-sm font-medium text-gray-900 text-black">Tags</label>
-                                        <select id="updateWikiTags" name="updateWikiTags" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-primary-500 focus:border-primary-500" onchange="handleTagSelection(this)">
-                                            <option selected disabled="">Select tags</option>
-                                            <?php
-                                            foreach ($tags as $tag) {
-                                                echo "<option value='{$tag->getTagID()}'>{$tag->getTag()}</option>";
-                                            }
-                                            ?>
+            <script>
+                const selectedUpdateTagIds = [];
 
-                                        </select>
-                                        <input type="hidden" id="selectedUpdateTagIdsInput" name="selectedUpdateTagIds" value="">
-                                        <div id="selectedUpdateTagsContainer" class="mt-2 flex flex-wrap space-x-2"></div>
-                                    </div>
-                                    <div class="col-span-2">
-                                        <label for="updateWikiTitle" class="block mb-2 text-sm font-medium text-gray-900 text-black">Wiki Title</label>
-                                        <input type="text" id="updateWikiTitle" name="updateWikiTitle" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-primary-500 focus:border-primary-500" placeholder="Type wiki title" required="">
-                                    </div>
-                                    <div class="col-span-2">
-                                        <label for="updateWikiDescription" class="block mb-2 text-sm font-medium text-gray-900 text-black">Wiki Description</label>
-                                        <textarea id="updateWikiDescription" name="updateWikiDescription" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 bg-gray-100 border-gray-500 placeholder-gray-400 text-black focus:ring-blue-500 focus:border-blue-500" placeholder="Write wiki description here"></textarea>
-                                    </div>
-                                </div>
-                                <button type="submit" name="updateWiki" class="inline-flex items-center focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-200 hover:bg-blue-400 focus:ring-blue-800">
-                                    <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    Update Wiki
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                function handleTagSelection(selectElement) {
+                    const selectedTagsContainer = document.getElementById('selectedTagsContainer');
+                    const selectedTagIdsInput = document.getElementById('selectedTagIdsInput');
 
-        <script>
-            function handleTagSelection(selectElement) {
-                const selectedTagsContainer = document.getElementById('selectedTagsContainer');
-                const selectedTagIdsInput = document.getElementById('selectedTagIdsInput');
+                    // Check if an option is selected
+                    if (selectElement.selectedIndex !== -1) {
+                        const selectedTagName = selectElement.options[selectElement.selectedIndex].text;
+                        const selectedTagId = selectElement.value;
 
-                // Check if an option is selected
-                if (selectElement.selectedIndex !== -1) {
-                    const selectedTagName = selectElement.options[selectElement.selectedIndex].text;
+                        if (selectedTagId && !document.getElementById(`selectedTag_${selectedTagId}`)) {
+                            // Add the selected tag to the container
+                            const tagDiv = document.createElement('div');
+                            tagDiv.id = `selectedTag_${selectedTagId}`;
+                            tagDiv.className = 'flex items-center space-x-2 bg-blue-200 rounded-lg p-2 mb-2';
 
-                    const selectedTagId = selectElement.value;
+                            const tagText = document.createElement('span');
+                            tagText.textContent = selectedTagName;
 
-                    if (selectedTagId && !document.getElementById(`selectedTag_${selectedTagId}`)) {
-                        // Add the selected tag to the container
-                        const tagDiv = document.createElement('div');
-                        tagDiv.id = `selectedTag_${selectedTagId}`;
-                        tagDiv.className = 'flex items-center space-x-2 bg-blue-200 rounded-lg p-2 mb-2';
+                            const removeIcon = document.createElement('i');
+                            removeIcon.className = 'bx bx-x cursor-pointer';
 
-                        const tagText = document.createElement('span');
-                        tagText.textContent = selectedTagName;
+                            removeIcon.addEventListener('click', function() {
+                                selectedTagsContainer.removeChild(tagDiv);
+                                updateHiddenInput();
+                            });
 
-                        const removeIcon = document.createElement('i');
-                        removeIcon.className = 'bx bx-x cursor-pointer';
+                            tagDiv.appendChild(tagText);
+                            tagDiv.appendChild(removeIcon);
 
-                        removeIcon.addEventListener('click', function() {
-                            selectedTagsContainer.removeChild(tagDiv);
+                            selectedTagsContainer.appendChild(tagDiv);
                             updateHiddenInput();
-                        });
+                        }
 
-                        tagDiv.appendChild(tagText);
-                        tagDiv.appendChild(removeIcon);
-
-                        selectedTagsContainer.appendChild(tagDiv);
-                        updateHiddenInput();
+                        selectElement.value = '';
                     }
-
-                    selectElement.value = '';
                 }
 
                 function updateHiddenInput() {
+                    const selectedTagsContainer = document.getElementById('selectedTagsContainer');
                     const selectedTagDivs = selectedTagsContainer.querySelectorAll('div');
                     const selectedTagIds = Array.from(selectedTagDivs).map((div) => div.id.replace('selectedTag_', ''));
                     selectedTagIdsInput.value = JSON.stringify(selectedTagIds);
                 }
-            }
-            document.addEventListener('DOMContentLoaded', function () {
-    const editButtons = document.querySelectorAll('.editProjectButton');
 
-    editButtons.forEach(button => {
-        button.addEventListener('click', function (event) {
-            event.preventDefault();
+                ////////////////////////////////////////////////////////////////////////
+                function updateSelectedTagsDisplay() {
+                    const selectedUpdateTagsContainer = document.getElementById('selectedUpdateTagsContainer');
 
-            // Get data attributes from the clicked button
-            const wikiId = button.dataset.wikiId;
-            const wikiTitle = button.dataset.wikiTitle;
-            const wikiDescription = button.dataset.wikiDescription;
-            const wikiCategory = button.dataset.wikiCategory;
-            const wikiTags = JSON.parse(button.dataset.wikiTags);
+                    selectedUpdateTagsContainer.innerHTML = '';
 
-            // Populate the update form fields
-            document.getElementById('updateWikiTitle').value = wikiTitle;
-            document.getElementById('updateWikiDescription').value = wikiDescription;
-            document.getElementById('updateWikiCategory').value = wikiCategory;
+                    selectedUpdateTagIds.forEach(tagId => {
+                        if (tagId !== null && tagId !== undefined) {
+                            const tagDiv = document.createElement('div');
+                            tagDiv.id = `selectedUpdateTag_${tagId}`;
+                            tagDiv.className = 'flex items-center space-x-2 bg-blue-200 rounded-lg p-2 mb-2';
 
-            // Manually trigger the tag selection function for each tag
-            const tagSelect = document.getElementById('updateWikiTags');
-            wikiTags.forEach(tagId => {
-                tagSelect.value = tagId;
-                handleTagSelection(tagSelect);
-            });
-        });
-    });
-});
+                            const tagText = document.createElement('span');
+                            tagText.textContent = getTagNameById(tagId);
 
-        </script>
+                            const removeIcon = document.createElement('i');
+                            removeIcon.className = 'bx bx-x cursor-pointer';
+
+                            removeIcon.addEventListener('click', function() {
+                                handleTagRemoval(tagDiv);
+                            });
+
+                            tagDiv.appendChild(tagText);
+                            tagDiv.appendChild(removeIcon);
+
+                            selectedUpdateTagsContainer.appendChild(tagDiv);
+                        }
+                    });
+                }
+
+                function handleUpdateTagSelection(selectElement) {
+                    const selectedUpdateTagsContainer = document.getElementById('selectedUpdateTagsContainer');
+
+                    // Check if an option is selected
+                    if (selectElement.selectedIndex !== -1) {
+                        const selectedTagName = selectElement.options[selectElement.selectedIndex].text;
+                        const selectedTagId = selectElement.value;
+
+                        if (selectedTagId && !document.getElementById(`selectedUpdateTag_${selectedTagId}`)) {
+                            // Add the selected tag to the container
+                            const tagDiv = document.createElement('div');
+                            tagDiv.id = `selectedUpdateTag_${selectedTagId}`;
+                            tagDiv.className = 'flex items-center space-x-2 bg-blue-200 rounded-lg p-2 mb-2';
+                            tagDiv.setAttribute('data-tag-id', selectedTagId); // Store tag ID as data attribute
+
+                            const tagText = document.createElement('span');
+                            tagText.textContent = selectedTagName;
+
+                            const removeIcon = document.createElement('i');
+                            removeIcon.className = 'bx bx-x cursor-pointer';
+
+                            removeIcon.addEventListener('click', function() {
+                                handleTagRemoval(tagDiv);
+                            });
+
+                            tagDiv.appendChild(tagText);
+                            tagDiv.appendChild(removeIcon);
+
+                            selectedUpdateTagsContainer.appendChild(tagDiv);
+
+                            // Update the array here
+                            selectedUpdateTagIds.push(selectedTagId);
+                            updateHiddenUpdateInput();
+                        }
+
+                        selectElement.value = '';
+                    }
+                }
+
+                function handleTagRemoval(tagDiv) {
+                    const selectedUpdateTagsContainer = document.getElementById('selectedUpdateTagsContainer');
+                    const tagId = tagDiv.getAttribute('data-tag-id');
+
+                    selectedUpdateTagsContainer.removeChild(tagDiv);
+
+                    // Update the array by removing the tag ID
+                    const index = selectedUpdateTagIds.indexOf(tagId);
+                    if (index !== -1) {
+                        selectedUpdateTagIds.splice(index, 1);
+                        updateHiddenUpdateInput();
+                    }
+                }
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    document.querySelectorAll('.editButton').forEach(button => {
+                        button.addEventListener('click', function() {
+                            showEditWikiForm(button);
+                        });
+                    });
+
+                    const tagSelectUpdate = document.getElementById('updateWikiTags');
+                    tagSelectUpdate.addEventListener('change', function() {
+                        handleUpdateTagSelection(tagSelectUpdate);
+                    });
+
+                    // Initialize selected tags display
+                    updateSelectedTagsDisplay();
+                });
+
+                function showEditWikiForm(button) {
+                    var editWikiForm = document.getElementById('authentication-modal');
+                    if (editWikiForm) {
+                        const wikiId = button.dataset.wikiId;
+                        const wikiTitle = button.dataset.wikiTitle;
+                        const wikiDescription = button.dataset.wikiDescription;
+                        const wikiCategory = button.dataset.wikiCategory;
+                        const wikiTags = JSON.parse(button.dataset.wikiTags);
+
+                        editWikiForm.querySelector('#updateWikiTitle').value = wikiTitle;
+                        editWikiForm.querySelector('#updateWikiDescription').value = wikiDescription;
+                        editWikiForm.querySelector('#updateWikiCategory').value = wikiCategory;
+
+                        // Clear existing array
+                        selectedUpdateTagIds.length = 0;
+
+                        wikiTags.forEach(tagId => {
+                            selectedUpdateTagIds.push(tagId);
+                        });
+
+                        updateSelectedTagsDisplay();
+                        updateHiddenUpdateInput();
+                    }
+                }
+
+                function updateHiddenUpdateInput() {
+                    const selectedUpdateTagsContainer = document.getElementById('selectedUpdateTagsContainer');
+                    const updateHiddenUpdateInput = document.getElementById('updateHiddenUpdateInput');
+                    if (updateHiddenUpdateInput) {
+                        updateHiddenUpdateInput.value = JSON.stringify(selectedUpdateTagIds);
+                        console.log(updateHiddenUpdateInput.value);
+                    }
+
+                }
+
+                function getTagNameById(tagId) {
+                    return `${tagId}`;
+                }
+            </script>
+
+
+
 
 
 
