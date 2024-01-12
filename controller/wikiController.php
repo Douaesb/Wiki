@@ -79,43 +79,81 @@ class wikiController
             $wiki = new wikiModel();
             $wiki->archiveWiki($wikiID);
             header('Location: index.php');
-            exit();
         }
     }
 
     public function detailsWikis()
     {
-        
+
         if (isset($_GET['detailswiki']) && isset($_GET['wikiID'])) {
             $wikiID = $_GET['wikiID'];
             // var_dump($wikiID);
             // die("");
             $wiki = new wikiModel();
             return $wiki->detailsWiki($wikiID);
-            
         }
     }
 
     public function searchWikis()
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['keyword'])) {
-        $keyword = $_POST['keyword'];
-    
-        $wiki = new wikiModel();
-        $searchResults = $wiki->searchWiki($keyword);
-    
-        header('Content-Type: application/json');
-        echo json_encode($searchResults);
-    }
-}
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['keyword'])) {
+            $keyword = $_POST['keyword'];
 
-public function WikisByCategory(){
-    $wiki = new wikiModel();
-    return $wiki->WikisByCategory();
-}
+            $wiki = new wikiModel();
+            $searchResults = $wiki->searchWiki($keyword);
+
+            header('Content-Type: application/json');
+            echo json_encode($searchResults);
+        }
+    }
+
+    public function getMostPostAuthor()
+    {
+        $wiki = new wikiModel();
+        return $wiki->getMostPostAuthor();
+    }
+
+    public function getTotalWikis()
+    {
+        $wiki = new wikiModel();
+        return $wiki->getTotalWikis();
+    }
+    public function getMostUsedCategory()
+    {
+        $wiki = new wikiModel();
+        return $wiki->getMostUsedCategory();
+    }
+    public function getTotalCategories()
+    {
+        $wiki = new wikiModel();
+        return $wiki->getTotalCategories();
+    }
+    public function getTotalTags()
+    {
+        $wiki = new wikiModel();
+        return $wiki->getTotalTags();
+    }
+    public function getTotalAuthors()
+    {
+        $wiki = new wikiModel();
+        return $wiki->getTotalAuthors();
+    }
+
+
+    public function editWiki($wikiID, $title, $content, $categoryID, $tagIDs)
+    {
+        $wiki = new wikiModel();
+
+       $result = $wiki->editWiki($wikiID, $title, $content, $categoryID, $tagIDs);
+
+        // Handle the result, e.g., redirect or display a message
+        if ($result) {
+            header("Location: index.php?action=viewWiki&id=" . $wikiID);
+        } else {
+            echo "Error editing wiki.";
+        }
+    }
 }
 
 $wikisearch = new wikiController();
 $wikisearch->searchWikis();
-
-
