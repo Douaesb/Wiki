@@ -350,6 +350,7 @@ $wikiData = $wiki->detailsWikis();
 
             <script>
                 const selectedUpdateTagIds = [];
+                const selectedUpdateTagNames = [];
 
                 function handleTagSelection(selectElement) {
                     const selectedTagsContainer = document.getElementById('selectedTagsContainer');
@@ -399,51 +400,125 @@ $wikiData = $wiki->detailsWikis();
 
                 ////////////////////////////////////////////////////////////////////////
                 function updateSelectedTagsDisplay() {
-    const selectedUpdateTagsContainer = document.getElementById('selectedUpdateTagsContainer');
-    const updateHiddenUpdateInput = document.getElementById('updateHiddenUpdateInput');
+                    const selectedUpdateTagsContainer = document.getElementById('selectedUpdateTagsContainer');
+                    const updateHiddenUpdateInput = document.getElementById('updateHiddenUpdateInput');
 
-    // Clear the container
-    selectedUpdateTagsContainer.innerHTML = '';
+                    // Clear the container
+                    selectedUpdateTagsContainer.innerHTML = '';
 
-    selectedUpdateTagIds.forEach(tagId => {
-        if (tagId !== null && tagId !== undefined) {
-            const tagDiv = document.createElement('div');
-            tagDiv.id = `selectedUpdateTag_${tagId}`;
-            console.log(tagDiv.id);
+                    // selectedUpdateTagNames.forEach(tagId => {
+                    //     if (tagId !== null && tagId !== undefined) {
+                    //         const tagDiv = document.createElement('div');
+                    //         tagDiv.id = `selectedUpdateTag_${tagId}`;
+                    //         console.log(tagDiv.id);
 
-            tagDiv.className = 'flex items-center space-x-2 bg-blue-200 rounded-lg p-2 mb-2';
+                    //         tagDiv.className = 'flex items-center space-x-2 bg-blue-200 rounded-lg p-2 mb-2';
 
-            const tagText = document.createElement('span');
-            tagText.textContent = tagId;
+                    //         const tagText = document.createElement('span');
+                    //         tagText.textContent = tagId;
 
-            const removeIcon = document.createElement('i');
-            removeIcon.className = 'bx bx-x cursor-pointer';
+                    //         const removeIcon = document.createElement('i');
+                    //         removeIcon.className = 'bx bx-x cursor-pointer';
 
-            removeIcon.addEventListener('click', function() {
-                // Remove the tag directly within the updateSelectedTagsDisplay function
-                tagDiv.remove();
+                    //         removeIcon.addEventListener('click', function() {
+                    //             // Remove the tag directly within the updateSelectedTagsDisplay function
+                    //             tagDiv.remove();
 
-                // Update the array by removing the tag ID
-                const index = selectedUpdateTagIds.indexOf(tagId);
-                if (index !== -1) {
-                    selectedUpdateTagIds.splice(index, 1);
-                    // Update the hidden input with the array of tag IDs
-                    updateHiddenUpdateInput.value = JSON.stringify(selectedUpdateTagIds);
-                    console.log(updateHiddenUpdateInput.value);
+                    //             // Update the array by removing the tag ID
+                    //             const index = selectedUpdateTagIds.indexOf(tagId);
+                    //             if (index !== -1) {
+                    //                 selectedUpdateTagIds.splice(index, 1);
+                    //                 // Update the hidden input with the array of tag IDs
+                    //                 updateHiddenUpdateInput.value = JSON.stringify(selectedUpdateTagIds);
+                    //                 console.log(updateHiddenUpdateInput.value);
+                    //             }
+                    //         });
+
+                    //         tagDiv.appendChild(tagText);
+                    //         tagDiv.appendChild(removeIcon);
+
+                    //         selectedUpdateTagsContainer.appendChild(tagDiv);
+                    //     }
+                    // });
+
+                    selectedUpdateTagNames.forEach((tagName, index) => {
+                        if (tagName !== null && tagName !== undefined) {
+                            const tagId = selectedUpdateTagIds[index];
+
+                            const tagDiv = document.createElement('div');
+                            tagDiv.id = `selectedUpdateTag_${tagId}`;
+                            console.log(tagDiv.id);
+
+                            tagDiv.className = 'flex items-center space-x-2 bg-blue-200 rounded-lg p-2 mb-2';
+
+                            const tagText = document.createElement('span');
+                            tagText.textContent = tagName;
+
+                            const removeIcon = document.createElement('i');
+                            removeIcon.className = 'bx bx-x cursor-pointer';
+
+                            removeIcon.addEventListener('click', function() {
+                                // Remove the tag directly within the updateSelectedTagsDisplay function
+                                tagDiv.remove();
+
+                                // Update the array by removing the tag ID
+                                const index = selectedUpdateTagIds.indexOf(tagId);
+                                if (index !== -1) {
+                                    selectedUpdateTagIds.splice(index, 1);
+                                    // Update the hidden input with the array of tag IDs
+                                    updateHiddenUpdateInput.value = JSON.stringify(selectedUpdateTagIds);
+                                    console.log(updateHiddenUpdateInput.value);
+                                }
+                            });
+
+                            tagDiv.appendChild(tagText);
+                            tagDiv.appendChild(removeIcon);
+
+                            selectedUpdateTagsContainer.appendChild(tagDiv);
+                        }
+                    });
+                    testupdateHiddenUpdateInput();
+
                 }
-            });
 
-            tagDiv.appendChild(tagText);
-            tagDiv.appendChild(removeIcon);
+                // function handleUpdateTagSelection(selectElement) {
+                //     const selectedUpdateTagsContainer = document.getElementById('selectedUpdateTagsContainer');
 
-            selectedUpdateTagsContainer.appendChild(tagDiv);
-        }
-    });
-                            testupdateHiddenUpdateInput();
+                //     // Check if an option is selected
+                //     if (selectElement.selectedIndex !== -1) {
+                //         const selectedTagName = selectElement.options[selectElement.selectedIndex].text;
+                //         const selectedTagId = selectElement.value;
 
-}
+                //         if (selectedTagId && !document.getElementById(`selectedUpdateTag_${selectedTagId}`)) {
+                //             // Add the selected tag to the container
+                //             const tagDiv = document.createElement('div');
+                //             tagDiv.id = `selectedUpdateTag_${selectedTagId}`;
+                //             tagDiv.className = 'flex items-center space-x-2 bg-blue-200 rounded-lg p-2 mb-2';
+                //             tagDiv.setAttribute('data-tag-id', selectedTagId); // Store tag ID as data attribute
 
+                //             const tagText = document.createElement('span');
+                //             tagText.textContent = selectedTagName;
 
+                //             const removeIcon = document.createElement('i');
+                //             removeIcon.className = 'bx bx-x cursor-pointer';
+
+                //             removeIcon.addEventListener('click', function() {
+                //                 handleTagRemoval(tagDiv);
+                //             });
+
+                //             tagDiv.appendChild(tagText);
+                //             tagDiv.appendChild(removeIcon);
+
+                //             selectedUpdateTagsContainer.appendChild(tagDiv);
+
+                //             // Update the array here
+                //             selectedUpdateTagIds.push(selectedTagId);
+                //             testupdateHiddenUpdateInput();
+                //         }
+
+                //         selectElement.value = '';
+                //     }
+                // }
 
                 function handleUpdateTagSelection(selectElement) {
                     const selectedUpdateTagsContainer = document.getElementById('selectedUpdateTagsContainer');
@@ -461,7 +536,7 @@ $wikiData = $wiki->detailsWikis();
                             tagDiv.setAttribute('data-tag-id', selectedTagId); // Store tag ID as data attribute
 
                             const tagText = document.createElement('span');
-                            tagText.textContent = selectedTagName;
+                            tagText.textContent = selectedTagName; // Display the tag name instead of the tag ID
 
                             const removeIcon = document.createElement('i');
                             removeIcon.className = 'bx bx-x cursor-pointer';
@@ -532,10 +607,21 @@ $wikiData = $wiki->detailsWikis();
 
                         // Clear existing array
                         selectedUpdateTagIds.length = 0;
-                        console.log(TagsIds);
-                        TagsIds.forEach(tagId => {
+                        selectedUpdateTagNames.length = 0;
+
+                        // TagsIds.forEach(tagId => {
+                        //     selectedUpdateTagIds.push(tagId);
+                        // });
+
+                        TagsIds.forEach((tagId, index) => {
                             selectedUpdateTagIds.push(tagId);
+
+                            // Check if the corresponding tag name exists
+                            const tagName = wikiTags[index] || 'Unknown Tag';
+                            selectedUpdateTagNames.push(tagName);
                         });
+
+                        console.log(selectedUpdateTagIds);
 
                         updateSelectedTagsDisplay();
                         testupdateHiddenUpdateInput();
