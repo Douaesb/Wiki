@@ -13,6 +13,8 @@ $m = $user->login();
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="../img/wikipedia.png" type="image/png">
+
 	<title>Wiki™</title>
 </head>
 

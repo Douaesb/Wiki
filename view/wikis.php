@@ -18,18 +18,6 @@ $wiki->EditWikis();
 $w = $wiki->DisplayWikis();
 $wiki->deleteWiki();
 $wikiData = $wiki->detailsWikis();
-
-// $dataTagIDs = array();
-
-// $tagIDs = array();
-// foreach ($tags as $tag) {
-//     $tagIDs[] = $tag->getTagID();
-// }
-
-// $dataWikiTags = htmlspecialchars(json_encode($tagIDs));
-// var_dump($dataWikiTags);
-// die("ok");
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,6 +29,8 @@ $wikiData = $wiki->detailsWikis();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+    <link rel="icon" href="../img/wikipedia.png" type="image/png">
+
     <title>Wiki™</title>
 </head>
 
