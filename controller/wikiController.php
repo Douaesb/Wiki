@@ -17,6 +17,8 @@ class wikiController
             // die("whyyy");
             $wikiID = $Wiki->addWiki($iduser, $categoryID);
             if ($wikiID !== false) {
+                //     var_dump($_POST['selectedTagIds']);
+                // die('test');
                 if (!empty($_POST['selectedTagIds'])) {
                     $tagIDs = json_decode($_POST['selectedTagIds'], true);
                     foreach ($tagIDs as $tagID) {
@@ -34,18 +36,20 @@ class wikiController
     {
         if (isset($_POST['editwiki']) && isset($_POST['wikiID'])) {
             $Wiki = new WikiModel();
-        // die("whyyy");
-
             $wikiID = $_POST['wikiID'];
             $categoryID = (int)$_POST['updateWikiCategory'];
             $Wiki->setwiki($_POST['updateWikiTitle']);
             $Wiki->setContent($_POST['updateWikiDescription']);
             $Wiki->setCreationDate(date('Y-m-d H:i:s'));
-            // var_dump($wikiID, $categoryID, $_POST['updateWikiTitle'], $_POST['updateWikiDescription'], $_POST['selectedUpdateTagIds']);
-            // die("whyyy");
             $Wiki->editWiki($wikiID, $categoryID);
-            if (!empty($_POST['selectedUpdateTagIds'])) {
-                $tagIDs = json_decode($_POST['selectedUpdateTagIds'], true);
+            $Wiki->deleteWikiTag($wikiID);
+    
+            if (!empty($_POST['updateHiddenUpdateInput'])) {
+                $tagIDs = json_decode($_POST['updateHiddenUpdateInput'], true);
+    
+                // Remove empty values from the array
+                $tagIDs = array_filter($tagIDs);
+    
                 foreach ($tagIDs as $tagID) {
                     $Wiki->editWikiTag($wikiID, $tagID);
                 }
@@ -54,6 +58,10 @@ class wikiController
             exit;
         }
     }
+    
+    
+
+
 
 
     public function DisplayWikis()
@@ -154,29 +162,15 @@ class wikiController
         return $wiki->getTotalAuthors();
     }
 
-
-    public function editWiki($wikiID, $title, $content, $categoryID, $tagIDs)
+    public function redirectDetails()
     {
-        $wiki = new wikiModel();
-
-        $result = $wiki->editWiki($wikiID, $title, $content, $categoryID, $tagIDs);
-
-        // Handle the result, e.g., redirect or display a message
-        if ($result) {
-            header("Location: index.php?action=viewWiki&id=" . $wikiID);
-        } else {
-            echo "Error editing wiki.";
-        }
-    }
-
-    public function redirectDetails(){
         $source = isset($_GET['source']) ? $_GET['source'] : '';
         if ($source === 'index') {
             return false;
         } elseif ($source === 'wikis') {
             return true;
+        }
     }
-}
 }
 
 $wikisearch = new wikiController();

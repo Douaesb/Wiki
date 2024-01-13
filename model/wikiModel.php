@@ -91,7 +91,7 @@ class wikiModel
         $wikis = [];
 
         try {
-            $sql = "SELECT w.wikiID, w.title,w.content, w.creationDate,c.categorieID, c.nomCategorie, u.nom, u.prenom,t.tagID, GROUP_CONCAT(t.nomTag) as tagnames
+            $sql = "SELECT w.wikiID, w.title,w.content, w.creationDate,c.categorieID, c.nomCategorie, u.nom, u.prenom,GROUP_CONCAT(t.tagID) as tagIDs, GROUP_CONCAT(t.nomTag) as tagnames
                     FROM wiki w
                     LEFT JOIN categorie c ON w.categorieID = c.categorieID
                     LEFT JOIN user u ON w.iduser = u.iduser
@@ -124,15 +124,18 @@ class wikiModel
 
                 $tagNames = explode(',', $wi['tagnames']);
                 $tags = array_map('trim', $tagNames);
+                $tagIDs = explode(',', $wi['tagIDs']);
+                $idsTags = array_map('trim', $tagIDs);
                 $tag = new tagModel();
                 $tag->setTag($tags);
-                $tag->setTagID($wi['tagID']);
+                $tag->setTagID($idsTags);
 
                 $wikiData = [
                     'wiki' => $wiki,
                     'category' => $cat,
                     'user' => $user,
                     'tags' => $tag,
+                    'idsTags' => $idsTags,
                 ];
                 $wikis[] = $wikiData;
             }
@@ -341,7 +344,7 @@ class wikiModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function editWiki($wikiID,$categorieID)
+    public function editWiki($wikiID, $categorieID)
     {
         $sql = "UPDATE wiki SET title = :title, content = :content, creationDate = :creationDate, categorieID = :categorieID WHERE wikiID = :wikiID";
         $stmt = $this->conn->prepare($sql);
@@ -353,14 +356,20 @@ class wikiModel
         return $stmt->execute();
     }
 
-
+    public function deleteWikiTag($wikiID)
+    {
+        $deleteSql = "DELETE FROM wikitag WHERE wikiID = :wikiID";
+        $deleteStmt = $this->conn->prepare($deleteSql);
+        $deleteStmt->bindParam(':wikiID', $wikiID);
+        return $deleteStmt->execute();
+    }
     public function editWikiTag($wikiID, $tagID)
     {
-        $sql = "UPDATE wikitag SET wikiID = :wikiID ,tagID = :tagID WHERE wikiID = :wikiID AND tagID = :tagID";
+        $sql = "INSERT INTO wikitag (wikiID, tagID) VALUES (:wikiID, :tagID)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':wikiID', $wikiID);
         $stmt->bindParam(':tagID', $tagID);
         return $stmt->execute();
     }
-
+    
 }

@@ -18,13 +18,17 @@ $wiki->EditWikis();
 $w = $wiki->DisplayWikis();
 $wiki->deleteWiki();
 $wikiData = $wiki->detailsWikis();
-// foreach($tags as $tag){
-//     var_dump($tag->getTag());
-// }
-// die("");
-// var_dump($tags);
-// die("");
 
+// $dataTagIDs = array();
+
+// $tagIDs = array();
+// foreach ($tags as $tag) {
+//     $tagIDs[] = $tag->getTagID();
+// }
+
+// $dataWikiTags = htmlspecialchars(json_encode($tagIDs));
+// var_dump($dataWikiTags);
+// die("ok");
 
 ?>
 <!DOCTYPE html>
@@ -176,6 +180,7 @@ $wikiData = $wiki->detailsWikis();
                                 <form class="p-4 md:p-5" action="" method="post">
                                     <div class="grid gap-4 mb-4 grid-cols-2">
                                         <div class="col-span-2">
+
                                             <input type="hidden" name="wikiID" id="editwikiId">
 
                                             <label for="updateWikiCategory" class="block mb-2 text-sm font-medium text-gray-900 text-black">Category</label>
@@ -186,6 +191,7 @@ $wikiData = $wiki->detailsWikis();
                                                     echo "<option value='{$category->getCategorieID()}'>{$category->getCategorie()}</option>";
                                                 }
                                                 // die("");
+
                                                 ?>
                                             </select>
                                         </div>
@@ -196,13 +202,13 @@ $wikiData = $wiki->detailsWikis();
                                                 <?php
 
                                                 foreach ($tags as $tag) {
-                                                    var_dump($tags);
+                                                    // var_dump($tags);
                                                     echo "<option value='{$tag->getTagID()}'>{$tag->getTag()}</option>";
                                                 }
                                                 ?>
 
                                             </select>
-                                            <input type="hidden" id="updateHiddenUpdateInput" name="selectedUpdateTagIds" value="">
+                                            <input type="hidden" id="updateHiddenUpdateInput" name="updateHiddenUpdateInput" value="">
                                             <div id="selectedUpdateTagsContainer" name="selectedUpdateTagsContainer" class="mt-2 flex flex-wrap space-x-2"></div>
                                         </div>
                                         <div class="col-span-2">
@@ -313,7 +319,7 @@ $wikiData = $wiki->detailsWikis();
 
                                             </div>
                                             <div class="flex items-center gap-6">
-                                                <a href="#" title="Edit" class="editButton" data-wiki-id="<?php echo $wiki->getwikiID(); ?>" data-wiki-title="<?php echo htmlspecialchars($wiki->getwiki()); ?>" data-wiki-description="<?php echo htmlspecialchars($wiki->getContent()); ?>" data-wiki-category="<?php echo $category->getCategorieID(); ?>" data-wiki-tags="<?php echo htmlspecialchars(json_encode($tags->getTag())); ?>" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal">
+                                                <a href="#" title="Edit" class="editButton" data-wiki-id="<?php echo $wiki->getwikiID(); ?>" data-wiki-title="<?php echo htmlspecialchars($wiki->getwiki()); ?>" data-wiki-description="<?php echo htmlspecialchars($wiki->getContent()); ?>" data-wiki-category="<?php echo $category->getCategorieID(); ?>" data-wiki-tags="<?php echo htmlspecialchars(json_encode($tags->getTag())); ?>" data-tag-id="<?php echo htmlspecialchars(json_encode($tags->getTagID())); ?>" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal">
                                                     <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
                                                         <path opacity="1" fill="#2766d3" d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z" />
                                                     </svg>
@@ -358,6 +364,8 @@ $wikiData = $wiki->detailsWikis();
                             // Add the selected tag to the container
                             const tagDiv = document.createElement('div');
                             tagDiv.id = `selectedTag_${selectedTagId}`;
+                            // console.log(tagDiv.id);
+
                             tagDiv.className = 'flex items-center space-x-2 bg-blue-200 rounded-lg p-2 mb-2';
 
                             const tagText = document.createElement('span');
@@ -391,33 +399,51 @@ $wikiData = $wiki->detailsWikis();
 
                 ////////////////////////////////////////////////////////////////////////
                 function updateSelectedTagsDisplay() {
-                    const selectedUpdateTagsContainer = document.getElementById('selectedUpdateTagsContainer');
+    const selectedUpdateTagsContainer = document.getElementById('selectedUpdateTagsContainer');
+    const updateHiddenUpdateInput = document.getElementById('updateHiddenUpdateInput');
 
-                    selectedUpdateTagsContainer.innerHTML = '';
+    // Clear the container
+    selectedUpdateTagsContainer.innerHTML = '';
 
-                    selectedUpdateTagIds.forEach(tagId => {
-                        if (tagId !== null && tagId !== undefined) {
-                            const tagDiv = document.createElement('div');
-                            tagDiv.id = `selectedUpdateTag_${tagId}`;
-                            tagDiv.className = 'flex items-center space-x-2 bg-blue-200 rounded-lg p-2 mb-2';
+    selectedUpdateTagIds.forEach(tagId => {
+        if (tagId !== null && tagId !== undefined) {
+            const tagDiv = document.createElement('div');
+            tagDiv.id = `selectedUpdateTag_${tagId}`;
+            console.log(tagDiv.id);
 
-                            const tagText = document.createElement('span');
-                            tagText.textContent = getTagNameById(tagId);
+            tagDiv.className = 'flex items-center space-x-2 bg-blue-200 rounded-lg p-2 mb-2';
 
-                            const removeIcon = document.createElement('i');
-                            removeIcon.className = 'bx bx-x cursor-pointer';
+            const tagText = document.createElement('span');
+            tagText.textContent = tagId;
 
-                            removeIcon.addEventListener('click', function() {
-                                handleTagRemoval(tagDiv);
-                            });
+            const removeIcon = document.createElement('i');
+            removeIcon.className = 'bx bx-x cursor-pointer';
 
-                            tagDiv.appendChild(tagText);
-                            tagDiv.appendChild(removeIcon);
+            removeIcon.addEventListener('click', function() {
+                // Remove the tag directly within the updateSelectedTagsDisplay function
+                tagDiv.remove();
 
-                            selectedUpdateTagsContainer.appendChild(tagDiv);
-                        }
-                    });
+                // Update the array by removing the tag ID
+                const index = selectedUpdateTagIds.indexOf(tagId);
+                if (index !== -1) {
+                    selectedUpdateTagIds.splice(index, 1);
+                    // Update the hidden input with the array of tag IDs
+                    updateHiddenUpdateInput.value = JSON.stringify(selectedUpdateTagIds);
+                    console.log(updateHiddenUpdateInput.value);
                 }
+            });
+
+            tagDiv.appendChild(tagText);
+            tagDiv.appendChild(removeIcon);
+
+            selectedUpdateTagsContainer.appendChild(tagDiv);
+        }
+    });
+                            testupdateHiddenUpdateInput();
+
+}
+
+
 
                 function handleUpdateTagSelection(selectElement) {
                     const selectedUpdateTagsContainer = document.getElementById('selectedUpdateTagsContainer');
@@ -451,7 +477,7 @@ $wikiData = $wiki->detailsWikis();
 
                             // Update the array here
                             selectedUpdateTagIds.push(selectedTagId);
-                            updateHiddenUpdateInput();
+                            testupdateHiddenUpdateInput();
                         }
 
                         selectElement.value = '';
@@ -468,7 +494,7 @@ $wikiData = $wiki->detailsWikis();
                     const index = selectedUpdateTagIds.indexOf(tagId);
                     if (index !== -1) {
                         selectedUpdateTagIds.splice(index, 1);
-                        updateHiddenUpdateInput();
+                        testupdateHiddenUpdateInput();
                     }
                 }
 
@@ -496,6 +522,8 @@ $wikiData = $wiki->detailsWikis();
                         const wikiDescription = button.dataset.wikiDescription;
                         const wikiCategory = button.dataset.wikiCategory;
                         const wikiTags = JSON.parse(button.dataset.wikiTags);
+                        const TagsIds = JSON.parse(button.dataset.tagId);
+
 
                         editWikiForm.querySelector('#editwikiId').value = wikiId;
                         editWikiForm.querySelector('#updateWikiTitle').value = wikiTitle;
@@ -504,17 +532,17 @@ $wikiData = $wiki->detailsWikis();
 
                         // Clear existing array
                         selectedUpdateTagIds.length = 0;
-
-                        wikiTags.forEach(tagId => {
+                        console.log(TagsIds);
+                        TagsIds.forEach(tagId => {
                             selectedUpdateTagIds.push(tagId);
                         });
 
                         updateSelectedTagsDisplay();
-                        updateHiddenUpdateInput();
+                        testupdateHiddenUpdateInput();
                     }
                 }
 
-                function updateHiddenUpdateInput() {
+                function testupdateHiddenUpdateInput() {
                     const selectedUpdateTagsContainer = document.getElementById('selectedUpdateTagsContainer');
                     const updateHiddenUpdateInput = document.getElementById('updateHiddenUpdateInput');
                     if (updateHiddenUpdateInput) {
@@ -522,10 +550,6 @@ $wikiData = $wiki->detailsWikis();
                         console.log(updateHiddenUpdateInput.value);
                     }
 
-                }
-
-                function getTagNameById(tagId) {
-                    return `${tagId}`;
                 }
             </script>
 
