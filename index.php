@@ -23,7 +23,7 @@ $cats = $cat->DisplayCategories();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
     <link rel="icon" href="img/wikipedia.png" type="image/png">
@@ -36,36 +36,34 @@ $cats = $cat->DisplayCategories();
 <body class="bg-gray-100">
 
     <div class="bg-white shadow-md">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between py-3">
-            <!-- Logo -->
-            <div class="flex items-center space-x-4 sm:space-x-10">
-                <img src="" alt="">
+    <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between py-3">
+        <!-- Logo -->
+        <div class="flex items-center space-x-4 sm:space-x-10">
+            <img src="" alt="">
 
-                <!-- Search Bar -->
-                <div class="relative">
-                    <input type="text" class="search-input border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring focus:border-blue-500 w-96" placeholder="Search wikis...">
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-                        <!-- SVG Search Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                            <path fill="#c4c6ca" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
-                        </svg>
-                    </div>
-                </div>
-
-
-                <div class="flex  mt-4 items-center space-x-4 md:flex-row">
-                    <!-- Login and Sign Up Buttons -->
-                    <a href="./view/login.php">
-                        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg">Login</button>
-
-                    </a>
-                    <a href="./view/register.php">
-                        <button class="bg-green-500 text-white px-4 py-2 rounded-lg">Sign Up</button>
-
-                    </a>
+            <!-- Search Bar -->
+            <div class="relative mt-4 md:mt-0">
+                <input type="text" class="search-input border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring focus:border-blue-500 md:w-96" placeholder="Search wikis...">
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                    <!-- SVG Search Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512">
+                        <!-- ... Your SVG Path ... -->
+                    </svg>
                 </div>
             </div>
         </div>
+
+        <div class="flex mt-4 md:mt-0 items-center space-x-4 md:space-x-8">
+            <!-- Login and Sign Up Buttons -->
+            <a href="./view/login.php">
+                <button class="bg-blue-500 text-white px-4 py-2 rounded-lg">Login</button>
+            </a>
+            <a href="./view/register.php">
+                <button class="bg-green-500 text-white px-4 py-2 rounded-lg">Sign Up</button>
+            </a>
+        </div>
+    </div>
+
         <div class="flex flex-wrap mt-10 mx-auto md:px-12 flex-grow">
             <div class="container mx-auto px-4 md:px-12">
                 <div class="flex gap-4">
