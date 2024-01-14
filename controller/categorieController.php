@@ -12,9 +12,14 @@ class categorieController
             $categorie->setCategorie($_POST['nomCategorie']);
             $currentDateTime = date('Y-m-d H:i');
             $categorie->setDateCategorie($currentDateTime);
-            $categorie->addCategorie();
-            header('Location: categories.php');
-            exit;
+            $categorieCreated = $categorie->addcategorie();
+            if ($categorieCreated) {
+                header('Location: categories.php');
+                exit;
+            } else {
+                return "categorie already exists!";
+                // echo '<script>alert("categorie already exists!");</script>';
+            }
         }
     }
 

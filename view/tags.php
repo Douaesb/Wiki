@@ -6,7 +6,7 @@ $user->isLoggedIn('admin');
 $user->login();
 $user->logout();
 $tag = new tagController();
-$tag->AddTags();
+$err = $tag->AddTags();
 $tags = $tag->DisplayTags();
 $tag->EditTags();
 $tag->deletetag();
@@ -175,7 +175,11 @@ $tag->deletetag();
                 <div class="max-w-4xl mx-auto">
                     <div class="bg-blue-200 rounded-3xl p-8 mb-5">
                         <h1 class="text-3xl font-bold mb-10">Tags</h1>
-
+                        <?php if (!empty($err)) : ?>
+                                <div class="text-xl font-semibold text-red-500">
+                                    <?php echo $err; ?>
+                                </div>
+                            <?php endif; ?>
                         <hr class="my-10 border border-blue-700">
 
                         <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
