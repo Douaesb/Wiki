@@ -130,7 +130,7 @@
         public function logout()
         {
             session_destroy();
-            header("Location: ../view/login.php");
+            header("Location: ../index.php");
             exit();
         }
 
