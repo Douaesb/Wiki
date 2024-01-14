@@ -36,25 +36,30 @@ $cats = $cat->DisplayCategories();
 <body class="bg-gray-100">
 
     <div class="bg-white shadow-md">
-    <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between py-3">
-        <!-- Logo -->
-        <div class="flex items-center space-x-4 sm:space-x-10">
-            <img src="" alt="">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between py-3">
+            <!-- Logo -->
+            <div class="flex items-center space-x-4 sm:space-x-10">
+                <img src="" alt="">
 
-            <!-- Search Bar -->
-            <div class="relative mt-4 md:mt-0">
-                <input type="text" class="search-input border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring focus:border-blue-500 md:w-96" placeholder="Search wikis...">
-                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
-                    <!-- SVG Search Icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512">
-                        <!-- ... Your SVG Path ... -->
-                    </svg>
+                <!-- Search Bar -->
+                <div class="relative mt-4 md:mt-0">
+                    <input type="text" class="search-input border border-gray-300 px-4 py-2 rounded-lg focus:outline-none focus:ring focus:border-blue-500 md:w-96" placeholder="Search wikis...">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                        <!-- SVG Search Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512">
+                            <!-- ... Your SVG Path ... -->
+                        </svg>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="flex mt-4 md:mt-0 items-center space-x-4 md:space-x-8">
+            <?php
+            if ($result2 || $result) {
+                
+            } else {
+                echo '
+                        <div class="flex mt-4 md:mt-0 items-center space-x-4 md:space-x-8">
             <!-- Login and Sign Up Buttons -->
+            
             <a href="./view/login.php">
                 <button class="bg-blue-500 text-white px-4 py-2 rounded-lg">Login</button>
             </a>
@@ -62,7 +67,11 @@ $cats = $cat->DisplayCategories();
                 <button class="bg-green-500 text-white px-4 py-2 rounded-lg">Sign Up</button>
             </a>
         </div>
-    </div>
+            ';
+            }
+            ?>
+
+        </div>
 
         <div class="flex flex-wrap mt-10 mx-auto md:px-12 flex-grow">
             <div class="container mx-auto px-4 md:px-12">
