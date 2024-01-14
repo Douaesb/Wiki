@@ -38,11 +38,25 @@ class CategorieModel{
 
     public function addCategorie()
     {
+        if ($this->isCategorieExists($this->nomCategorie)) {
+            return false; 
+        }
+
         $sql = "INSERT INTO categorie (nomCategorie, dateCategorie) VALUES (:nomC, :dateC)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':nomC', $this->nomCategorie);
         $stmt->bindParam(':dateC', $this->dateCategorie);
         return $stmt->execute();
+    }
+
+    public function isCategorieExists($CategorieName)
+    {
+        $sql = "SELECT COUNT(*) FROM Categorie WHERE nomCategorie = :CategorieName";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':CategorieName', $CategorieName);
+        $stmt->execute();
+        $count = $stmt->fetchColumn();
+        return $count > 0;
     }
 
 

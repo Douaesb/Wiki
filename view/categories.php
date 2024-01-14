@@ -7,7 +7,7 @@ $user->isLoggedIn('admin');
 $user->login();
 $user->logout();
 $cat = new categorieController();
-$cat->AddCategories();
+$error = $cat->AddCategories();
 $cats = $cat->DisplayCategories();
 $cat->EditCategories();
 $cat->deleteCategorie();
@@ -131,7 +131,11 @@ $cat->deleteCategorie();
                 <div class="max-w-4xl mx-auto">
                     <div class="bg-blue-200 rounded-3xl p-8 mb-5">
                         <h1 class="text-3xl font-bold mb-10">Categories</h1>
-
+                        <?php if (!empty($error)) : ?>
+                                <div class="text-xl font-semibold text-red-500">
+                                    <?php echo $error; ?>
+                                </div>
+                            <?php endif; ?>
                         <hr class="my-10 border border-blue-700">
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

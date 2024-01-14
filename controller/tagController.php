@@ -6,16 +6,20 @@ class tagController
 
     public function AddTags()
     {
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addtag'])) {
             $tag = new tagModel();
             $tag->setTag($_POST['nomTag']);
-            $tag->addTag();
-            header('Location: tags.php');
-            exit;
+            
+            $tagCreated = $tag->addTag();
+    
+            if ($tagCreated) {
+                header('Location: tags.php');
+                exit;
+            } else {
+                return "Tag already exists!";
+            }
         }
     }
-
 
     public function DisplayTags()
     {
