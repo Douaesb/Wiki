@@ -79,6 +79,9 @@ class CategorieModel{
 
     public function editCategorie($categorieID)
     {
+        if ($this->isCategorieExists($this->nomCategorie)) {
+            return false; 
+        }
         $sql = "UPDATE categorie SET nomCategorie = :nomC, dateCategorie = :dateC WHERE categorieID = :categorieID";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':categorieID', $categorieID);

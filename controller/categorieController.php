@@ -37,24 +37,28 @@ class CategorieController
     }
 
     public function editCategories()
-    {
-        $categorie = new CategorieModel();
-        if (isset($_POST['editcat']) && isset($_POST['categorieID'])) {
-            $idcat = $_POST['categorieID'];
-            $nomCategorie = $this->validateInput($_POST['nomCategorie']);
+{
+    $categorie = new CategorieModel();
+    if (isset($_POST['editcat']) && isset($_POST['categorieID'])) {
+        $idcat = $_POST['categorieID'];
+        $nomCategorie = $this->validateInput($_POST['nomCategorie']);
 
-            if (!$nomCategorie) {
-                return "Veuillez fournir un nom de catégorie valide.";
-            }
+        if (!$nomCategorie) {
+            return "Veuillez fournir un nom de catégorie valide.";
+        }
 
-            $currentDateTime = date('Y-m-d H:i');
-            $categorie->setCategorie($nomCategorie);
-            $categorie->setDateCategorie($currentDateTime);
-            $categorie->editCategorie($idcat);
-            header("Location: categories.php");
-            exit();
+        $categorie->setCategorie($nomCategorie);
+
+        $categorieUpdated = $categorie->editCategorie($idcat);
+
+        if ($categorieUpdated) {
+            header('Location: categories.php');
+            exit;
+        } else {
+            return "La catégorie existe déjà !";
         }
     }
+}
 
     public function deleteCategorie()
     {

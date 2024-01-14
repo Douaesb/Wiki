@@ -9,7 +9,7 @@ $user->logout();
 $cat = new categorieController();
 $error = $cat->AddCategories();
 $cats = $cat->DisplayCategories();
-$cat->EditCategories();
+$error = $cat->EditCategories();
 $cat->deleteCategorie();
 ?>
 <!DOCTYPE html>

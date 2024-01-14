@@ -1,46 +1,50 @@
 <?php
-class tagModel{
+class tagModel
+{
 
     private $tagID;
     private $nomTag;
     private $conn;
-    
-    public function __construct() {
-       
-        $this->conn = Database::getDb()->getConn();
 
+    public function __construct()
+    {
+
+        $this->conn = Database::getDb()->getConn();
     }
 
 
-    public function getTagID(){
+    public function getTagID()
+    {
         return $this->tagID;
     }
 
-    public function setTagID($tagID){
+    public function setTagID($tagID)
+    {
         $this->tagID = $tagID;
-
     }
-    public function getTag(){
+    public function getTag()
+    {
         return $this->nomTag;
     }
 
-    public function setTag($nomtag){
+    public function setTag($nomtag)
+    {
         $this->nomTag = $nomtag;
     }
 
     public function addTag()
     {
         if ($this->isTagExists($this->nomTag)) {
-            return false; 
+            return false;
         }
-    
+
         $sql = "INSERT INTO tags (nomTag) VALUES (:nomC)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':nomC', $this->nomTag);
-    
+
         return $stmt->execute();
     }
-    
+
     public function isTagExists($tagName)
     {
         $sql = "SELECT COUNT(*) FROM tags WHERE nomTag = :tagName";
@@ -68,6 +72,9 @@ class tagModel{
 
     public function editTag($tagID)
     {
+        if ($this->isTagExists($this->nomTag)) {
+            return false; 
+        }
         $sql = "UPDATE tags SET nomTag = :nomT WHERE tagID = :tagID";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':tagID', $tagID);
@@ -82,6 +89,4 @@ class tagModel{
         $stmt->bindParam(':tagID', $tagID);
         return $stmt->execute();
     }
-    
-
 }
