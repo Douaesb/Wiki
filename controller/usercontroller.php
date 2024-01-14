@@ -4,30 +4,77 @@ require_once(__DIR__ . '/../model/userModel.php');
 class usercontroller
 {
 
-    public function Register()
-    {
-        $error = "";
+    // public function Register()
+    // {
+    //     $error = "";
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
-            $user = new UserModel();
-            $role = 'auteur';
-            $user->setnom($_POST['nom']);
-            $user->setprenom($_POST['prenom']);
-            $user->setemail($_POST['email']);
-            $user->setpass($_POST['pass']);
-            $user->settel($_POST['tel']);
-            $user->setrole($role);
-            $error = $user->register();
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+    //         $user = new UserModel();
+    //         $role = 'auteur';
+    //         $user->setnom($_POST['nom']);
+    //         $user->setprenom($_POST['prenom']);
+    //         $user->setemail($_POST['email']);
+    //         $user->setpass($_POST['pass']);
+    //         $user->settel($_POST['tel']);
+    //         $user->setrole($role);
+    //         $error = $user->register();
 
-            if (empty($error)) {
-                header('Location: ../view/login.php');
-                exit();
-            }
+    //         if (empty($error)) {
+    //             header('Location: ../view/login.php');
+    //             exit();
+    //         }
             
 
-            return $error;
+    //         return $error;
+    //     }
+    // }
+
+    public function Register()
+{
+    $error = "";
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+        // Validate inputs
+        $nom = $this->validateInput($_POST['nom']);
+        $prenom = $this->validateInput($_POST['prenom']);
+        $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+        $pass = $this->validateInput($_POST['pass']);
+        $tel = $this->validateInput($_POST['tel']);
+
+        if (!$nom || !$prenom || !$email || !$pass || !$tel) {
+            return "Veuillez fournir des données valides.";
         }
+
+        $user = new UserModel();
+        $role = 'auteur';
+        $user->setnom($nom);
+        $user->setprenom($prenom);
+        $user->setemail($email);
+        $user->setpass($pass);
+        $user->settel($tel);
+        $user->setrole($role);
+        $error = $user->register();
+
+        if (empty($error)) {
+            header('Location: ../view/login.php');
+            exit();
+        }
+
+        return $error;
     }
+}
+
+private function validateInput($input)
+{
+    $trimmedInput = trim($input);
+    if (strlen($trimmedInput) > 3) {
+        return $trimmedInput;
+    } else {
+        return false;
+    }
+}
+
+
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pass']) && isset($_POST['email'])) {

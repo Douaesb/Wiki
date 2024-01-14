@@ -113,7 +113,7 @@ $TotalAuthors = $wiki->getTotalAuthors();
                                         <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Most Posting Author
 
                                         </dt>
-                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo $MostPostAuthor['nom'];?></dd>
+                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo htmlspecialchars($MostPostAuthor['nom']);?></dd>
                                     </dl>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@ $TotalAuthors = $wiki->getTotalAuthors();
                                 <div class="px-4 py-5 sm:p-6">
                                     <dl>
                                         <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Total Users</dt>
-                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo $TotalAuthors['totalAuthors'];?></dd>
+                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo htmlspecialchars($TotalAuthors['totalAuthors']);?></dd>
                                     </dl>
                                 </div>
                             </div>
@@ -129,7 +129,7 @@ $TotalAuthors = $wiki->getTotalAuthors();
                                 <div class="px-4 py-5 sm:p-6">
                                     <dl>
                                         <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Most Used Category</dt>
-                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo $MostUsedCategory['nomCategorie'];?></dd>
+                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo htmlspecialchars($MostUsedCategory['nomCategorie']);?></dd>
                                     </dl>
                                 </div>
                             </div>
@@ -137,7 +137,7 @@ $TotalAuthors = $wiki->getTotalAuthors();
                                 <div class="px-4 py-5 sm:p-6">
                                     <dl>
                                         <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Total wikis</dt>
-                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo $TotalWikis['totalWikis'];?></dd>
+                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo htmlspecialchars($TotalWikis['totalWikis']);?></dd>
                                     </dl>
                                 </div>
                             </div>
@@ -145,7 +145,7 @@ $TotalAuthors = $wiki->getTotalAuthors();
                                 <div class="px-4 py-5 sm:p-6">
                                     <dl>
                                         <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Total categories</dt>
-                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo $TotalCategories['totalCategories'];?></dd>
+                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo htmlspecialchars($TotalCategories['totalCategories']);?></dd>
                                     </dl>
                                 </div>
                             </div>
@@ -153,7 +153,7 @@ $TotalAuthors = $wiki->getTotalAuthors();
                                 <div class="px-4 py-5 sm:p-6">
                                     <dl>
                                         <dt class="text-sm leading-5 font-medium text-gray-500 truncate">Total Tags</dt>
-                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo $TotalTags['totalTags'];?></dd>
+                                        <dd class="mt-1 text-3xl leading-9 font-semibold text-indigo-600"><?php echo htmlspecialchars($TotalTags['totalTags']);?></dd>
                                     </dl>
                                 </div>
                             </div>

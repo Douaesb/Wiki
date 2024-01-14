@@ -288,7 +288,7 @@ class wikiModel
 
     public function getTotalWikis()
     {
-        $sql = "SELECT COUNT(*) as totalWikis FROM wiki";
+        $sql = "SELECT COUNT(*) as totalWikis FROM wiki WHERE archive IS NULL";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
