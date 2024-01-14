@@ -8,7 +8,7 @@ $user->logout();
 $tag = new tagController();
 $err = $tag->AddTags();
 $tags = $tag->DisplayTags();
-$tag->EditTags();
+$err = $tag->EditTags();
 $tag->deletetag();
 ?>
 <!DOCTYPE html>

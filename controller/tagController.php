@@ -43,11 +43,17 @@ class tagController
             if (!$nomTag) {
                 return "Veuillez fournir un nom de tag valide.";
             }
-
+    
             $tag->settag($nomTag);
-            $tag->editTag($idtag);
-            header("Location: tags.php");
-            exit();
+    
+            $tagUpdated = $tag->editTag($idtag);
+    
+            if ($tagUpdated) {
+                header('Location: tags.php');
+                exit;
+            } else {
+                return "Le tag existe déjà !";
+            }
         }
     }
 
