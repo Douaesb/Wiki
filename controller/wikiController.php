@@ -4,21 +4,27 @@ require_once(__DIR__ . '/../model/wikiModel.php');
 class wikiController
 {
 
-    public function AddWikis()
+    public function addWikis()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addwiki'])) {
             $Wiki = new WikiModel();
             $categoryID = (int)$_POST['categorieID'];
             $iduser = $_SESSION['iduser'];
-            $Wiki->setwiki($_POST['title']);
-            $Wiki->setContent($_POST['content']);
+            
+            $title = $this->validateInput($_POST['title']);
+            $content = $this->validateInput($_POST['content']);
+
+            if (!$title || !$content) {
+                echo "Veuillez fournir un titre et un contenu valides pour le wiki.";
+                return;
+            }
+
+            $Wiki->setWiki($title);
+            $Wiki->setContent($content);
             $Wiki->setCreationDate(date('Y-m-d H:i:s'));
-            // var_dump($iduser, $categoryID, $_POST['title'], $_POST['content'], $_POST['selectedTagIds']);
-            // die("whyyy");
+
             $wikiID = $Wiki->addWiki($iduser, $categoryID);
             if ($wikiID !== false) {
-                //     var_dump($_POST['selectedTagIds']);
-                // die('test');
                 if (!empty($_POST['selectedTagIds'])) {
                     $tagIDs = json_decode($_POST['selectedTagIds'], true);
                     foreach ($tagIDs as $tagID) {
@@ -32,30 +38,50 @@ class wikiController
             }
         }
     }
-    public function EditWikis()
+
+    public function editWikis()
     {
         if (isset($_POST['editwiki']) && isset($_POST['wikiID'])) {
             $Wiki = new WikiModel();
             $wikiID = $_POST['wikiID'];
             $categoryID = (int)$_POST['updateWikiCategory'];
-            $Wiki->setwiki($_POST['updateWikiTitle']);
-            $Wiki->setContent($_POST['updateWikiDescription']);
+
+            $updateWikiTitle = $this->validateInput($_POST['updateWikiTitle']);
+            $updateWikiDescription = $this->validateInput($_POST['updateWikiDescription']);
+
+            if (!$updateWikiTitle || !$updateWikiDescription) {
+                echo "Veuillez fournir un titre et une description valides pour le wiki.";
+                return;
+            }
+
+            $Wiki->setWiki($updateWikiTitle);
+            $Wiki->setContent($updateWikiDescription);
             $Wiki->setCreationDate(date('Y-m-d H:i:s'));
             $Wiki->editWiki($wikiID, $categoryID);
             $Wiki->deleteWikiTag($wikiID);
-    
+
             if (!empty($_POST['updateHiddenUpdateInput'])) {
                 $tagIDs = json_decode($_POST['updateHiddenUpdateInput'], true);
-    
+
                 // Remove empty values from the array
                 $tagIDs = array_filter($tagIDs);
-    
+
                 foreach ($tagIDs as $tagID) {
                     $Wiki->editWikiTag($wikiID, $tagID);
                 }
             }
             header('Location: wikis.php');
             exit;
+        }
+    }
+
+    private function validateInput($input)
+    {
+        $trimmedInput = trim($input);
+        if (strlen($trimmedInput) > 0) {
+            return htmlspecialchars($trimmedInput, ENT_QUOTES, 'UTF-8');
+        } else {
+            return false;
         }
     }
     

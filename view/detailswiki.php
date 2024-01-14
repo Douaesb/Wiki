@@ -87,9 +87,9 @@ foreach ($wikiData as $wikiItem) {
                             echo '<a href="../index.php" class="inline-flex items-center justify-center h-8 w-8 text-lg text-indigo-500"><i class="bx bx-arrow-back"></i></a>';
                         }
                         ?>
-                        <h4 class="ml-2 text-xl text-gray-500">Categorie : <?php echo $category->getCategorie(); ?></h4>
+                        <h4 class="ml-2 text-xl text-gray-500">Categorie : <?php echo htmlspecialchars($category->getCategorie()); ?></h4>
                     </div>
-                    <h5 class=" flex justify-center mb-2= text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Title : <?php echo $wikis->getwiki(); ?></h5>
+                    <h5 class=" flex justify-center mb-2= text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Title : <?php echo htmlspecialchars($wikis->getwiki()); ?></h5>
                     <div class="flex bg-white sm:rounded-lg p-1 gap-8 ml-2">
                         <?php foreach ($tags->getTag() as $onetag)
                             echo '
@@ -102,7 +102,7 @@ foreach ($wikiData as $wikiItem) {
                     ';
                         ?>
                     </div>
-                    <p class="mb-3 font-normal text-gray-700"><?php echo $wikis->getContent(); ?></p>
+                    <p class="mb-3 font-normal text-gray-700"><?php echo htmlspecialchars($wikis->getContent()); ?></p>
 
                     <div class="flex items-center justify-between gap-4">
                         <div class="flex items-center gap-2 mt-3">
@@ -111,7 +111,7 @@ foreach ($wikiData as $wikiItem) {
                         </div>
                         <div class="flex items-center text-green-500 gap-2 mt-3">
                             <span class="ml- leading-none text-gray-600">Crée le :</span>
-                            <span class="leading-none"><?php echo date('j M H:i', strtotime($wikis->getCreationDate())); ?>
+                            <span class="leading-none"><?php echo htmlspecialchars(date('j M H:i', strtotime($wikis->getCreationDate()))); ?>
                             </span>
                         </div>
 
