@@ -46,8 +46,10 @@ class CategorieController
         if (!$nomCategorie) {
             return "Veuillez fournir un nom de catégorie valide.";
         }
-
+        $currentDateTime = date('Y-m-d H:i');
         $categorie->setCategorie($nomCategorie);
+        $categorie->setDateCategorie($currentDateTime);
+
 
         $categorieUpdated = $categorie->editCategorie($idcat);
 
